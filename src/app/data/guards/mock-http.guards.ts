@@ -1,4 +1,3 @@
-// Type guards para el Mock HTTP Service
 // Single Responsibility: Solo maneja validación de tipos
 
 import {

@@ -1,4 +1,9 @@
 // Single Responsibility: Solo maneja tipos relacionados con HTTP mock
+import {
+  TransactionType,
+  TransactionStatus,
+  LoanStatus,
+} from '../../models/types/financial.interface';
 
 export interface MockHttpResponse<T> {
   data: T;
@@ -18,16 +23,16 @@ export interface LoanApplicationData {
   termInMonths: number;
   monthlyPayment: number;
   interestRate: number;
-  status: 'DRAFT' | 'SUBMITTED' | 'UNDER_REVIEW' | 'APPROVED' | 'REJECTED';
+  status: LoanStatus;
   documents: string[];
 }
 
 export interface TransactionData {
   userId: string;
-  type: 'DEPOSIT' | 'WITHDRAWAL' | 'TRANSFER' | 'PAYMENT' | 'FEE';
+  type: TransactionType;
   amount: number;
   description: string;
   category: string;
-  status: 'PENDING' | 'COMPLETED' | 'FAILED' | 'CANCELLED';
+  status: TransactionStatus;
   transactionDate: Date;
 }

@@ -1,0 +1,28 @@
+<div
+  [class]="containerClasses"
+  role="status"
+  [attr.aria-label]="ariaLabel"
+  [attr.aria-valuenow]="showProgress ? progressValue : null"
+  [attr.aria-valuemin]="showProgress ? 0 : null"
+  [attr.aria-valuemax]="showProgress ? progressMax : null"
+>
+  <div [class]="spinnerClasses">
+    <div class="spinner__circle" aria-hidden="true"></div>
+  </div>
+
+  <span [class]="messageClasses">{{ message }}</span>
+
+  <span [class]="subtitleClasses">{{ subtitle }}</span>
+
+  <div [class]="progressClasses" role="progressbar">
+    <div
+      class="loading-progress__bar"
+      [style.width.%]="progressPercentage"
+    ></div>
+  </div>
+
+  <span class="sr-only">
+    {{ ariaLabel
+    }}{{ showProgress ? ", progreso: " + progressPercentage + "%" : "" }}
+  </span>
+</div>

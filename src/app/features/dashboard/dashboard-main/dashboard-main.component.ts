@@ -63,30 +63,39 @@ export class DashboardMainComponent implements OnInit {
     this.loadTransactionData();
     this.loadProductData();
     this.loadNavigationData();
+
+    // Suscribirse a cambios en la sesión para actualizar el perfil
+    this.authenticationService.currentSession$.subscribe((session) => {
+      if (session) {
+        this.loadNavigationData();
+      } else {
+        // Si no hay sesión, limpiar los datos de navegación
+        this.userProfile = undefined;
+        this.navigationItems = [];
+        this.notifications = [];
+      }
+    });
   }
 
   private loadSummaryData(): void {
     this.summaryCards = [
       {
         title: 'Deuda Total',
-        amount: 2450000,
+        amount: 182500000, // 125M + 35M + 2.5M + 20M
         label: 'COP',
         icon: 'money',
-        trend: { value: -2.5, isPositive: false },
       },
       {
         title: 'Próximo Pago',
-        amount: 125000,
-        label: '15 Feb 2024',
+        amount: 1250000, // 800k + 350k + 50k + 50k
+        label: '10 Dic',
         icon: 'calendar',
-        trend: { value: 0, isPositive: true },
       },
       {
         title: 'Créditos Activos',
-        amount: 3,
+        amount: 4,
         label: 'Productos',
         icon: 'credit-card',
-        trend: { value: 0, isPositive: true },
       },
     ];
   }
@@ -94,31 +103,40 @@ export class DashboardMainComponent implements OnInit {
   private loadCreditData(): void {
     this.creditCards = [
       {
-        title: 'Préstamo Hipotecario',
+        title: 'Crédito de Vivienda',
         number: '4521',
         type: 'mortgage',
-        originalAmount: 2000000,
-        pendingAmount: 1750000,
-        nextPaymentDate: '2024-02-15',
-        progressPercentage: 87,
+        originalAmount: 150000000,
+        pendingAmount: 125000000,
+        nextPaymentDate: '2024-12-15',
+        progressPercentage: 83,
       },
       {
-        title: 'Préstamo de Coche',
+        title: 'Préstamo Vehicular',
         number: '8842',
         type: 'auto',
-        originalAmount: 80000000,
-        pendingAmount: 45000000,
-        nextPaymentDate: '2024-02-20',
-        progressPercentage: 56,
+        originalAmount: 60000000,
+        pendingAmount: 35000000,
+        nextPaymentDate: '2024-12-20',
+        progressPercentage: 58,
       },
       {
         title: 'Tarjeta de Crédito',
         number: '3357',
         type: 'credit',
-        originalAmount: 5000000,
-        pendingAmount: 1200000,
-        nextPaymentDate: '2024-02-25',
-        progressPercentage: 24,
+        originalAmount: 8000000,
+        pendingAmount: 2500000,
+        nextPaymentDate: '2024-12-25',
+        progressPercentage: 31,
+      },
+      {
+        title: 'Préstamo Libre Inversión',
+        number: '5521',
+        type: 'personal',
+        originalAmount: 25000000,
+        pendingAmount: 20000000,
+        nextPaymentDate: '2024-12-10',
+        progressPercentage: 80,
       },
     ];
   }
@@ -126,44 +144,44 @@ export class DashboardMainComponent implements OnInit {
   private loadTransactionData(): void {
     this.transactions = [
       {
-        title: 'Pago Préstamo Hipotecario',
-        description: 'Cuota mensual - Febrero 2024',
-        amount: 125000,
+        title: 'Pago Vivienda',
+        description: 'Cuota Dic 2024',
+        amount: 800000,
         type: 'payment',
-        date: '2024-02-01',
+        date: '2024-12-01',
         isCredit: false,
       },
       {
-        title: 'Desembolso Tarjeta de Crédito',
-        description: 'Compra en línea - Amazon',
+        title: 'Compra Tarjeta',
+        description: 'Falabella',
         amount: 89000,
         type: 'disbursement',
-        date: '2024-01-28',
+        date: '2024-11-28',
         isCredit: true,
       },
       {
-        title: 'Pago Préstamo de Coche',
-        description: 'Cuota mensual - Enero 2024',
-        amount: 850000,
+        title: 'Pago Vehicular',
+        description: 'Cuota Nov 2024',
+        amount: 350000,
         type: 'payment',
-        date: '2024-01-25',
+        date: '2024-11-25',
         isCredit: false,
       },
       {
-        title: 'Pago Tarjeta de Crédito',
-        description: 'Pago mínimo - Enero 2024',
-        amount: 45000,
+        title: 'Pago Tarjeta',
+        description: 'Mínimo Nov 2024',
+        amount: 50000,
         type: 'payment',
-        date: '2024-01-20',
+        date: '2024-11-20',
         isCredit: false,
       },
       {
-        title: 'Desembolso Préstamo Personal',
-        description: 'Solicitud aprobada #5521',
-        amount: 2000000,
-        type: 'disbursement',
-        date: '2024-01-15',
-        isCredit: true,
+        title: 'Pago Libre Inversión',
+        description: 'Cuota Nov 2024',
+        amount: 500000,
+        type: 'payment',
+        date: '2024-11-15',
+        isCredit: false,
       },
     ];
   }
@@ -171,39 +189,28 @@ export class DashboardMainComponent implements OnInit {
   private loadProductData(): void {
     this.productCards = [
       {
-        title: 'Tarjeta de Crédito Premium',
-        description:
-          'Obtén hasta $10,000,000 en límite de crédito con beneficios exclusivos',
+        title: 'Tarjeta Premium',
+        description: 'Hasta $10M de cupo con beneficios exclusivos',
         icon: 'credit-card',
         features: [
-          'Sin cuota de manejo el primer año',
-          'Cashback del 2% en compras',
-          'Acceso a salas VIP',
+          'Sin cuota de manejo primer año',
+          'Cashback 2%',
+          'Salas VIP',
         ],
         variant: 'primary',
       },
       {
-        title: 'Préstamo Personal',
-        description:
-          'Financiación rápida hasta $50,000,000 para tus proyectos personales',
+        title: 'Préstamo de Libre Inversión',
+        description: 'Hasta $50M para tus proyectos',
         icon: 'money',
-        features: [
-          'Tasa desde 1.2% mensual',
-          'Hasta 60 meses para pagar',
-          'Aprobación en 24 horas',
-        ],
+        features: ['Tasa desde 1.2%', 'Hasta 60 meses', 'Aprobación 24h'],
         variant: 'secondary',
       },
       {
-        title: 'Crédito Hipotecario',
-        description:
-          'Haz realidad el sueño de tu casa propia con nuestro crédito hipotecario',
+        title: 'Crédito de Vivienda',
+        description: 'Haz realidad tu casa propia',
         icon: 'home',
-        features: [
-          'Financia hasta el 80% del valor',
-          'Plazo hasta 30 años',
-          'Tasa fija o variable',
-        ],
+        features: ['Financia 80%', 'Hasta 30 años', 'Tasa fija/variable'],
         variant: 'secondary',
       },
     ];
@@ -244,12 +251,6 @@ export class DashboardMainComponent implements OnInit {
         label: 'Transacciones',
         route: '/transactions',
         icon: 'transactions',
-      },
-      {
-        id: 'reports',
-        label: 'Reportes',
-        route: '/reports',
-        icon: 'chart',
       },
     ];
 

@@ -1,0 +1,238 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  box-sizing: border-box;
+  position: relative;
+  white-space: nowrap;
+
+  &:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Size variants
+  &--small {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    min-height: 2rem;
+
+    .button__icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &--medium {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    min-height: 2.5rem;
+
+    .button__icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  &--large {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    min-height: 3rem;
+
+    .button__icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  // Variant styles
+  &--primary {
+    background-color: #3b82f6;
+    color: #ffffff;
+    border-color: #3b82f6;
+
+    &:hover:not(:disabled) {
+      background-color: #2563eb;
+      border-color: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    }
+  }
+
+  &--secondary {
+    background-color: #ffffff;
+    color: #374151;
+    border-color: #d1d5db;
+
+    &:hover:not(:disabled) {
+      background-color: #f9fafb;
+      border-color: #9ca3af;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  &--danger {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+
+    &:hover:not(:disabled) {
+      background-color: #dc2626;
+      border-color: #dc2626;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+    }
+  }
+
+  &--ghost {
+    background-color: transparent;
+    color: #374151;
+    border-color: transparent;
+
+    &:hover:not(:disabled) {
+      background-color: #f3f4f6;
+      color: #1f2937;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+  }
+
+  // Modifiers
+  &--full-width {
+    width: 100%;
+  }
+
+  &--icon-only {
+    padding: 0.5rem;
+    min-width: 2.5rem;
+
+    &.button--small {
+      padding: 0.375rem;
+      min-width: 2rem;
+    }
+
+    &.button--large {
+      padding: 0.75rem;
+      min-width: 3rem;
+    }
+  }
+
+  &--loading {
+    cursor: wait;
+    pointer-events: none;
+
+    .button__text {
+      opacity: 0.7;
+    }
+  }
+}
+
+.button__spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button__spinner-svg {
+  width: 1rem;
+  height: 1rem;
+  animation: spin 1s linear infinite;
+
+  .button--small & {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .button--large & {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.button__icon {
+  flex-shrink: 0;
+  fill: currentColor;
+
+  &--left {
+    margin-right: 0.25rem;
+  }
+
+  &--right {
+    margin-left: 0.25rem;
+  }
+}
+
+.button__text {
+  display: inline-block;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+
+    &:hover:not(:disabled) {
+      transform: none;
+    }
+  }
+
+  .button__spinner-svg {
+    animation: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .button {
+    &--medium {
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    &--large {
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+}

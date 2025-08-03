@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type MessageType = 'error' | 'warning' | 'success' | 'info';
@@ -11,7 +11,7 @@ export type MessageVariant = 'inline' | 'toast' | 'modal';
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
 })
-export class MessageComponent {
+export class MessageComponent implements OnInit {
   @Input() type: MessageType = 'info';
   @Input() variant: MessageVariant = 'inline';
   @Input() title?: string;
@@ -28,8 +28,14 @@ export class MessageComponent {
 
   @Output() dismiss = new EventEmitter<void>();
 
+  private _errorId: string = '';
+
+  ngOnInit(): void {
+    this._errorId = `message-${Math.random().toString(36).substring(2, 11)}`;
+  }
+
   get errorId(): string {
-    return `message-${Math.random().toString(36).substring(2, 11)}`;
+    return this._errorId;
   }
 
   get defaultPrimaryActionText(): string {

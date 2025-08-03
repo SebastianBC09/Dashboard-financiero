@@ -1,0 +1,73 @@
+<button
+  [type]="type"
+  [disabled]="disabled || loading"
+  [class]="buttonClasses"
+  (click)="onButtonClick($event)"
+  [attr.aria-label]="iconOnly ? icon : undefined"
+>
+  <!-- Loading spinner -->
+  <div *ngIf="loading" class="button__spinner" aria-hidden="true">
+    <svg
+      class="button__spinner-svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-dasharray="31.416"
+        stroke-dashoffset="31.416"
+      >
+        <animate
+          attributeName="stroke-dasharray"
+          dur="2s"
+          values="0 31.416;15.708 15.708;0 31.416"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="stroke-dashoffset"
+          dur="2s"
+          values="0;-15.708;-31.416"
+          repeatCount="indefinite"
+        />
+      </circle>
+    </svg>
+  </div>
+
+  <!-- Icon left -->
+  <svg
+    *ngIf="icon && iconPosition === 'left' && !loading"
+    class="button__icon button__icon--left"
+    aria-hidden="true"
+  >
+    <use [attr.href]="'#' + icon"></use>
+  </svg>
+
+  <!-- Text content -->
+  <span *ngIf="!iconOnly" class="button__text">
+    <ng-content></ng-content>
+  </span>
+
+  <!-- Icon right -->
+  <svg
+    *ngIf="icon && iconPosition === 'right' && !loading"
+    class="button__icon button__icon--right"
+    aria-hidden="true"
+  >
+    <use [attr.href]="'#' + icon"></use>
+  </svg>
+
+  <!-- Icon only -->
+  <svg
+    *ngIf="icon && iconOnly && !loading"
+    class="button__icon"
+    aria-hidden="true"
+  >
+    <use [attr.href]="'#' + icon"></use>
+  </svg>
+</button>

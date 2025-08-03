@@ -3,6 +3,7 @@ export type TransactionType =
   | 'WITHDRAWAL'
   | 'TRANSFER'
   | 'PAYMENT'
+  | 'DISBURSEMENT'
   | 'FEE';
 export type TransactionStatus =
   | 'PENDING'

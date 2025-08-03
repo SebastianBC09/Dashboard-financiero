@@ -1,0 +1,47 @@
+<div
+  *ngIf="isOpen"
+  [class]="modalClasses"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-labelledby]="title ? 'modal-title' : undefined"
+>
+  <div [class]="overlayClasses" (click)="onOverlayClick($event)">
+    <div [class]="contentClasses">
+      <!-- Header -->
+      <div *ngIf="title || showCloseButton" class="modal__header">
+        <h2 *ngIf="title" id="modal-title" class="modal__title">
+          {{ title }}
+        </h2>
+        <button
+          *ngIf="showCloseButton"
+          type="button"
+          class="modal__close"
+          (click)="onCloseButtonClick()"
+          aria-label="Cerrar modal"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M15 5L5 15M5 5L15 15"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="modal__body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

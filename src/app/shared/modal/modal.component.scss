@@ -1,0 +1,261 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  isolation: isolate;
+
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+  }
+}
+
+.modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
+
+  &--open {
+    opacity: 1;
+  }
+}
+
+.modal__content {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  transform: scale(0.95) translateY(-10px);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+  margin: auto;
+
+  &--open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  // Size variants
+  .modal--small & {
+    width: 100%;
+    max-width: 24rem;
+  }
+
+  .modal--medium & {
+    width: 100%;
+    max-width: 32rem;
+  }
+
+  .modal--large & {
+    width: 100%;
+    max-width: 48rem;
+  }
+
+  .modal--full & {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+  }
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  gap: 1rem;
+
+  @media (max-width: 480px) {
+    padding: 1rem 1rem 0 1rem;
+  }
+}
+
+.modal__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #111827;
+  flex: 1;
+  min-width: 0;
+
+  @media (max-width: 480px) {
+    font-size: 1.125rem;
+  }
+}
+
+.modal__close {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+
+  @media (max-width: 480px) {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  &:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.modal__body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 8rem);
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    max-height: calc(100vh - 6rem);
+  }
+
+  .modal--full & {
+    flex: 1;
+    max-height: none;
+  }
+}
+
+// Focus trap styles
+.modal:focus-within .modal__content {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .modal__overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .modal__content {
+    border: 2px solid #000000;
+  }
+
+  .modal__title {
+    color: #000000;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .modal__overlay,
+  .modal__content {
+    transition: none;
+  }
+
+  .modal__close:hover {
+    transform: none;
+  }
+}
+
+// Mobile optimizations
+@media (max-width: 480px) {
+  .modal {
+    align-items: flex-end;
+  }
+
+  .modal__content {
+    border-radius: 0.75rem 0.75rem 0 0;
+    max-height: 90vh;
+    margin: 0 auto 0 auto;
+  }
+
+  .modal--full .modal__content {
+    border-radius: 0;
+    max-height: 100vh;
+  }
+}
+
+// Ensure modal is always on top and properly positioned
+// Higher specificity selectors to ensure proper centering
+.modal.modal--open {
+  isolation: isolate;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__overlay.modal__overlay--open {
+  isolation: isolate;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__content.modal__content--open {
+  isolation: isolate;
+  z-index: 1001;
+  position: relative;
+  margin: auto;
+}
+
+// Additional specificity for size variants
+.modal.modal--small .modal__content.modal__content--open,
+.modal.modal--medium .modal__content.modal__content--open,
+.modal.modal--large .modal__content.modal__content--open {
+  margin: auto;
+  align-self: center;
+  justify-self: center;
+}

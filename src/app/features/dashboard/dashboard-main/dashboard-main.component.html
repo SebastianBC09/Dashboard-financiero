@@ -1,0 +1,185 @@
+<!-- Dashboard Principal Component -->
+<app-navigation-header
+  appName="FinanceApp"
+  [navigationItems]="navigationItems"
+  [userProfile]="userProfile"
+  [notifications]="notifications"
+  [showNotifications]="true"
+  [showUserMenu]="true"
+  (navigationClick)="onNavigationClick($event)"
+  (userMenuClick)="onUserMenuClick($event)"
+  (notificationClick)="onNotificationClick($event)"
+  (logoutClick)="onLogout()"
+>
+</app-navigation-header>
+
+<main class="dashboard" role="main" aria-label="Panel principal de créditos">
+  <!-- Hero Section with Summary -->
+  <section class="dashboard__hero" aria-labelledby="hero-title">
+    <div class="container">
+      <header class="dashboard__header">
+        <h1 id="hero-title" class="dashboard__title">Mi Panel de Créditos</h1>
+        <p class="dashboard__subtitle">
+          Gestiona tus productos financieros desde un solo lugar
+        </p>
+      </header>
+
+      <!-- Financial Summary Cards -->
+      <div
+        class="dashboard__summary"
+        role="region"
+        aria-label="Resumen financiero"
+      >
+        <app-summary-card
+          *ngFor="let card of summaryCards; let i = index"
+          [data]="card"
+          [variant]="i === 0 ? 'primary' : i === 1 ? 'secondary' : 'accent'"
+        >
+        </app-summary-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Grid -->
+  <div class="container">
+    <div class="dashboard__grid">
+      <!-- Active Credits Section -->
+      <section class="dashboard__section" aria-labelledby="credits-title">
+        <header class="section__header">
+          <h2 id="credits-title" class="section__title">Créditos Activos</h2>
+          <app-button
+            variant="secondary"
+            size="small"
+            (click)="onViewAllCredits()"
+            aria-label="Ver todos los créditos"
+          >
+            Ver todos
+          </app-button>
+        </header>
+
+        <div class="credit-cards" role="list">
+          <app-credit-card
+            *ngFor="let credit of creditCards"
+            [data]="credit"
+            role="listitem"
+          >
+          </app-credit-card>
+        </div>
+      </section>
+
+      <!-- Recent Transactions Section -->
+      <section class="dashboard__section" aria-labelledby="transactions-title">
+        <header class="section__header">
+          <h2 id="transactions-title" class="section__title">
+            Transacciones Recientes
+          </h2>
+          <app-button
+            variant="secondary"
+            size="small"
+            (click)="onViewAllTransactions()"
+            aria-label="Ver todas las transacciones"
+          >
+            Ver todas
+          </app-button>
+        </header>
+
+        <div class="transactions-list" role="list">
+          <app-transaction-item
+            *ngFor="let transaction of transactions"
+            [data]="transaction"
+            role="listitem"
+          >
+          </app-transaction-item>
+        </div>
+      </section>
+
+      <!-- Debt Chart Section (Optional) -->
+      <section
+        class="dashboard__section dashboard__section--chart"
+        aria-labelledby="chart-title"
+      >
+        <header class="section__header">
+          <h2 id="chart-title" class="section__title">Evolución de la Deuda</h2>
+          <div
+            class="chart-controls"
+            role="tablist"
+            aria-label="Período de tiempo"
+          >
+            <button
+              class="chart-control"
+              role="tab"
+              aria-selected="false"
+              type="button"
+            >
+              3M
+            </button>
+            <button
+              class="chart-control chart-control--active"
+              role="tab"
+              aria-selected="true"
+              type="button"
+            >
+              6M
+            </button>
+            <button
+              class="chart-control"
+              role="tab"
+              aria-selected="false"
+              type="button"
+            >
+              1A
+            </button>
+          </div>
+        </header>
+
+        <div
+          class="chart-container"
+          aria-label="Gráfico de evolución de deuda en los últimos 6 meses"
+        >
+          <div class="chart-placeholder">
+            <div class="chart-placeholder__content">
+              <svg
+                class="chart-placeholder__icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"
+                />
+              </svg>
+              <p class="chart-placeholder__text">
+                Gráfico de evolución de deuda
+              </p>
+              <span class="chart-placeholder__note">
+                Datos de los últimos 6 meses
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Suggested Products Section -->
+      <section
+        class="dashboard__section dashboard__section--products"
+        aria-labelledby="products-title"
+      >
+        <header class="section__header">
+          <h2 id="products-title" class="section__title">
+            Productos Sugeridos
+          </h2>
+        </header>
+
+        <div class="product-cards" role="list">
+          <app-product-card
+            *ngFor="let product of productCards"
+            [data]="product"
+            (onLearnMore)="onProductLearnMore()"
+            role="listitem"
+          >
+          </app-product-card>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>

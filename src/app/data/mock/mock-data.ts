@@ -23,11 +23,11 @@ export const MOCK_USERS: User[] = [
     employmentInfo: {
       employer: 'Bancolombia S.A.',
       position: 'Ingeniero de Software Senior',
-      monthlyIncome: 8500000, // 8.5 millones COP
+      monthlyIncome: 8500000,
       employmentStartDate: new Date('2020-03-01'),
     },
     creditScore: 750,
-    accountBalance: 25000000, // 25 millones COP
+    accountBalance: 25000000,
     isActive: true,
     createdAt: new Date('2020-01-15'),
     updatedAt: new Date('2024-01-15'),
@@ -49,11 +49,11 @@ export const MOCK_USERS: User[] = [
     employmentInfo: {
       employer: 'Grupo Sura',
       position: 'Analista Financiera',
-      monthlyIncome: 7200000, // 7.2 millones COP
+      monthlyIncome: 7200000,
       employmentStartDate: new Date('2019-07-15'),
     },
     creditScore: 780,
-    accountBalance: 18000000, // 18 millones COP
+    accountBalance: 18000000,
     isActive: true,
     createdAt: new Date('2019-06-10'),
     updatedAt: new Date('2024-01-10'),
@@ -75,11 +75,11 @@ export const MOCK_USERS: User[] = [
     employmentInfo: {
       employer: 'Carvajal S.A.',
       position: 'Contador Público',
-      monthlyIncome: 6500000, // 6.5 millones COP
+      monthlyIncome: 6500000,
       employmentStartDate: new Date('2021-01-10'),
     },
     creditScore: 720,
-    accountBalance: 12000000, // 12 millones COP
+    accountBalance: 12000000,
     isActive: true,
     createdAt: new Date('2021-01-10'),
     updatedAt: new Date('2024-01-12'),
@@ -237,11 +237,11 @@ export const MOCK_LOAN_APPLICATIONS: LoanApplication[] = [
   {
     id: '1',
     userId: '1',
-    loanAmount: 50000000, // 50 millones COP
+    loanAmount: 50000000,
     purpose: 'Renovación de apartamento en Chapinero',
     termInMonths: 36,
-    monthlyPayment: 1800000, // 1.8 millones COP
-    interestRate: 18.5, // Tasa colombiana típica
+    monthlyPayment: 1800000,
+    interestRate: 18.5,
     status: 'APPROVED',
     documents: [
       'cedula.pdf',
@@ -256,10 +256,10 @@ export const MOCK_LOAN_APPLICATIONS: LoanApplication[] = [
   {
     id: '2',
     userId: '2',
-    loanAmount: 35000000, // 35 millones COP
+    loanAmount: 35000000,
     purpose: 'Compra de automóvil - Toyota Corolla',
     termInMonths: 60,
-    monthlyPayment: 1200000, // 1.2 millones COP
+    monthlyPayment: 1200000,
     interestRate: 16.8,
     status: 'UNDER_REVIEW',
     documents: [
@@ -273,10 +273,10 @@ export const MOCK_LOAN_APPLICATIONS: LoanApplication[] = [
   {
     id: '3',
     userId: '3',
-    loanAmount: 15000000, // 15 millones COP
+    loanAmount: 15000000,
     purpose: 'Maestría en Administración - Universidad de los Andes',
     termInMonths: 24,
-    monthlyPayment: 750000, // 750 mil COP
+    monthlyPayment: 750000,
     interestRate: 12.5,
     status: 'DRAFT',
     documents: ['cedula.pdf', 'certificado_laboral.pdf'],
@@ -285,15 +285,14 @@ export const MOCK_LOAN_APPLICATIONS: LoanApplication[] = [
   },
 ];
 
-// Configuraciones específicas del contexto local
 export const LOCAL_CONFIG = {
   currency: 'COP',
   currencySymbol: '$',
   decimalSeparator: ',',
   thousandsSeparator: '.',
   exchangeRate: {
-    USD: 4000, // 1 USD = 4000 COP (aproximado)
-    EUR: 4400, // 1 EUR = 4400 COP (aproximado)
+    USD: 4000,
+    EUR: 4400,
   },
   banks: [
     'Bancolombia',

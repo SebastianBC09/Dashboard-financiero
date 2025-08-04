@@ -34,7 +34,6 @@ export class ModalComponent implements OnInit, OnDestroy, OnChanges {
   private originalBodyOverflow: string = '';
 
   ngOnInit(): void {
-    // Guardar el estado original del overflow
     if (this.preventScroll) {
       this.originalBodyOverflow = document.body.style.overflow;
     }
@@ -43,17 +42,14 @@ export class ModalComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isOpen'] && this.preventScroll) {
       if (this.isOpen) {
-        // Bloquear scroll cuando el modal se abre
         document.body.style.overflow = 'hidden';
       } else {
-        // Restaurar scroll cuando el modal se cierra
         document.body.style.overflow = this.originalBodyOverflow;
       }
     }
   }
 
   ngOnDestroy(): void {
-    // Restaurar el scroll cuando el componente se destruye
     if (this.preventScroll && this.originalBodyOverflow) {
       document.body.style.overflow = this.originalBodyOverflow;
     }

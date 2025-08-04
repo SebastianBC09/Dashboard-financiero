@@ -216,23 +216,13 @@ export class DashboardMainComponent implements OnInit {
     ];
   }
 
-  onViewAllCredits(): void {
-    console.log('Ver todos los créditos');
-    // Implementar navegación
-  }
+  onViewAllCredits(): void {}
 
-  onViewAllTransactions(): void {
-    console.log('Ver todas las transacciones');
-    // Implementar navegación
-  }
+  onViewAllTransactions(): void {}
 
-  onProductLearnMore(): void {
-    console.log('Más información del producto');
-    // Implementar navegación
-  }
+  onProductLearnMore(): void {}
 
   private loadNavigationData(): void {
-    // Navigation items
     this.navigationItems = [
       {
         id: 'dashboard',
@@ -241,10 +231,10 @@ export class DashboardMainComponent implements OnInit {
         icon: 'dashboard',
       },
       {
-        id: 'credits',
-        label: 'Créditos',
-        route: '/credits',
-        icon: 'credit-card',
+        id: 'loan-application',
+        label: 'Solicitar Crédito',
+        route: '/loan-application',
+        icon: 'credit',
       },
       {
         id: 'transactions',
@@ -254,7 +244,6 @@ export class DashboardMainComponent implements OnInit {
       },
     ];
 
-    // User profile
     const currentUser = this.authenticationService.getCurrentUser();
     if (currentUser) {
       this.userProfile = {
@@ -264,7 +253,6 @@ export class DashboardMainComponent implements OnInit {
       };
     }
 
-    // Notifications
     this.notifications = [
       {
         id: '1',
@@ -285,22 +273,15 @@ export class DashboardMainComponent implements OnInit {
     ];
   }
 
-  onNavigationClick(item: NavigationItem): void {
-    console.log('Navegación a:', item.route);
-    // Implementar navegación
-  }
+  onNavigationClick(item: NavigationItem): void {}
 
   onUserMenuClick(action: string): void {
-    console.log('Acción de usuario:', action);
     switch (action) {
       case 'profile':
-        // Navegar al perfil
         break;
       case 'settings':
-        // Navegar a configuraciones
         break;
       case 'help':
-        // Mostrar ayuda
         break;
     }
   }
@@ -311,15 +292,10 @@ export class DashboardMainComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        console.error('Error al cerrar sesión:', error);
-        // Navegar de todas formas
         this.router.navigate(['/login']);
       },
     });
   }
 
-  onNotificationClick(notification: NotificationItem): void {
-    console.log('Notificación clickeada:', notification);
-    // Marcar como leída y navegar si es necesario
-  }
+  onNotificationClick(notification: NotificationItem): void {}
 }

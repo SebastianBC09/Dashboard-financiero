@@ -85,7 +85,6 @@ export class SessionMonitorService implements OnDestroy {
     const secondsRemaining = timeRemaining % 60;
 
     if (timeRemaining <= 60) {
-      console.log('Showing critical warning, time remaining:', timeRemaining);
       this.sessionWarningSubject.next({
         type: 'critical',
         message: '¡Sesión crítica! Serás desconectado automáticamente.',
@@ -93,12 +92,6 @@ export class SessionMonitorService implements OnDestroy {
         showExtendButton: true,
       });
     } else if (timeRemaining <= 120 && !this.dismissedWarnings.has('warning')) {
-      console.log(
-        'Showing normal warning, time remaining:',
-        timeRemaining,
-        'dismissed:',
-        this.dismissedWarnings.has('warning'),
-      );
       this.sessionWarningSubject.next({
         type: 'warning',
         message: 'Tu sesión está por expirar. ¿Deseas extenderla?',
@@ -106,16 +99,6 @@ export class SessionMonitorService implements OnDestroy {
         showExtendButton: true,
       });
     } else {
-      if (timeRemaining > 120) {
-        console.log('No warning needed, time remaining:', timeRemaining);
-      } else {
-        console.log(
-          'Warning dismissed or not needed, time remaining:',
-          timeRemaining,
-          'dismissed:',
-          this.dismissedWarnings.has('warning'),
-        );
-      }
       this.sessionWarningSubject.next(null);
     }
   }
@@ -138,15 +121,12 @@ export class SessionMonitorService implements OnDestroy {
 
   public dismissWarning(): void {
     const currentWarning = this.sessionWarningSubject.value;
-    console.log('Dismissing warning:', currentWarning);
 
     if (currentWarning) {
       if (currentWarning.type === 'warning') {
-        console.log('Dismissing normal warning');
         this.dismissedWarnings.add('warning');
         this.sessionWarningSubject.next(null);
       } else if (currentWarning.type === 'critical') {
-        console.log('Dismissing critical warning - logging out');
         this.stopMonitoring();
         this.sessionWarningSubject.next(null);
         this.dismissedWarnings.clear();

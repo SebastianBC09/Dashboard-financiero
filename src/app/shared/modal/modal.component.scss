@@ -61,7 +61,6 @@
     opacity: 1;
   }
 
-  // Size variants
   .modal--small & {
     width: 100%;
     max-width: 24rem;
@@ -163,13 +162,11 @@
   }
 }
 
-// Focus trap styles
 .modal:focus-within .modal__content {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
-// High contrast mode
 @media (prefers-contrast: high) {
   .modal__overlay {
     background-color: rgba(0, 0, 0, 0.8);
@@ -184,7 +181,6 @@
   }
 }
 
-// Reduced motion
 @media (prefers-reduced-motion: reduce) {
   .modal__overlay,
   .modal__content {
@@ -196,7 +192,6 @@
   }
 }
 
-// Mobile optimizations
 @media (max-width: 480px) {
   .modal {
     align-items: flex-end;
@@ -214,8 +209,6 @@
   }
 }
 
-// Ensure modal is always on top and properly positioned
-// Higher specificity selectors to ensure proper centering
 .modal.modal--open {
   isolation: isolate;
   position: fixed;
@@ -251,7 +244,6 @@
   margin: auto;
 }
 
-// Additional specificity for size variants
 .modal.modal--small .modal__content.modal__content--open,
 .modal.modal--medium .modal__content.modal__content--open,
 .modal.modal--large .modal__content.modal__content--open {

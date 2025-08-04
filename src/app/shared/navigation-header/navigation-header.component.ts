@@ -53,13 +53,11 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
   @Output() notificationClick = new EventEmitter<NotificationItem>();
   @Output() logoutClick = new EventEmitter<void>();
 
-  // Estados internos
   isUserMenuOpen: boolean = false;
   isMobileMenuOpen: boolean = false;
   isNotificationsOpen: boolean = false;
   unreadNotificationsCount: number = 0;
 
-  // Referencias para click outside
   private userMenuElement?: HTMLElement;
   private notificationsElement?: HTMLElement;
 
@@ -77,12 +75,10 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
 
-    // Cerrar menú de usuario si se hace click fuera
     if (this.userMenuElement && !this.userMenuElement.contains(target)) {
       this.closeUserMenu();
     }
 
-    // Cerrar notificaciones si se hace click fuera
     if (
       this.notificationsElement &&
       !this.notificationsElement.contains(target)
@@ -93,7 +89,6 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize')
   onWindowResize(): void {
-    // Cerrar menú móvil en pantallas grandes
     if (window.innerWidth > 768 && this.isMobileMenuOpen) {
       this.closeMobileMenu();
     }
@@ -105,7 +100,6 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
     ).length;
   }
 
-  // Métodos de navegación
   onNavigationClick(item: NavigationItem): void {
     this.navigationClick.emit(item);
     this.closeMobileMenu();
@@ -115,7 +109,6 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
     return this.router.url === item.route;
   }
 
-  // Métodos del menú de usuario
   toggleUserMenu(): void {
     this.isUserMenuOpen = !this.isUserMenuOpen;
     this.closeNotifications();
@@ -135,7 +128,6 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
     this.closeUserMenu();
   }
 
-  // Métodos de notificaciones
   toggleNotifications(): void {
     this.isNotificationsOpen = !this.isNotificationsOpen;
     this.closeUserMenu();
@@ -155,7 +147,6 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
     this.updateUnreadNotificationsCount();
   }
 
-  // Métodos del menú móvil
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
@@ -164,14 +155,12 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
     this.isMobileMenuOpen = false;
   }
 
-  // Métodos de utilidad
   private closeAllMenus(): void {
     this.closeUserMenu();
     this.closeNotifications();
     this.closeMobileMenu();
   }
 
-  // Getters para clases CSS
   get userMenuClasses(): string {
     const classes = ['navigation-header__user-dropdown'];
 
@@ -212,12 +201,28 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
     return classes.join(' ');
   }
 
-  // Referencias para elementos del DOM
   setUserMenuRef(element: HTMLElement): void {
     this.userMenuElement = element;
   }
 
   setNotificationsRef(element: HTMLElement): void {
     this.notificationsElement = element;
+  }
+
+  getAvatarUrl(email: string): string {
+    if (!email) {
+      return 'https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff&size=40';
+    }
+
+    const name = email.split('@')[0];
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=3b82f6&color=fff&size=40`;
+  }
+
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    if (target) {
+      target.src =
+        'https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff&size=40';
+    }
   }
 }

@@ -1,4 +1,3 @@
-// Single Responsibility: Solo maneja tipos relacionados con HTTP mock
 import {
   TransactionType,
   TransactionStatus,

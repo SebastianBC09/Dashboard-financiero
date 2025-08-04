@@ -1,4 +1,3 @@
-/* Auth Container - BEM */
 .auth-container {
   display: flex;
   align-items: center;
@@ -8,7 +7,6 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Auth Card - BEM */
 .auth-card {
   background: white;
   border-radius: 12px;
@@ -33,7 +31,6 @@
   background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
 }
 
-/* Brand - BEM */
 .auth-brand {
   text-align: center;
   margin-bottom: 2rem;
@@ -77,12 +74,10 @@
   font-weight: 500;
 }
 
-/* Auth Message - BEM */
 .auth-message {
   margin-bottom: 1.5rem;
 }
 
-/* Auth Form - BEM */
 .auth-form {
   display: flex;
   flex-direction: column;
@@ -95,7 +90,6 @@
   margin: 0;
 }
 
-/* Form Group - BEM */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -164,7 +158,6 @@
   font-size: 0.875rem;
 }
 
-/* Password Input Wrapper */
 .password-input-wrapper {
   position: relative;
   display: flex;
@@ -203,12 +196,10 @@
   color: #2563eb;
 }
 
-/* Auth Button - BEM */
 .auth-button {
   margin-top: 0.5rem;
 }
 
-/* Auth Footer - BEM */
 .auth-footer {
   margin-top: 2rem;
   text-align: center;
@@ -243,7 +234,6 @@
   text-decoration: underline;
 }
 
-/* Responsive */
 @media (max-width: 480px) {
   .auth-container {
     padding: 0.5rem;
@@ -265,7 +255,6 @@
   }
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
   .auth-card {
     border: 2px solid #000;
@@ -280,7 +269,6 @@
   }
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .auth-brand__logo,
   .form-group__input,

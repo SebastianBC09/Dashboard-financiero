@@ -80,7 +80,34 @@
               stroke-width="2"
             >
               <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-              <line x1="1" y1="10" x2="23" y2="10" />
+              <line x="1" y1="10" x2="23" y2="10" />
+            </svg>
+            <svg
+              *ngIf="item.icon === 'credit-card'"
+              class="navigation-header__nav-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+              <line x="1" y1="10" x2="23" y2="10" />
+            </svg>
+            <svg
+              *ngIf="item.icon === 'chart'"
+              class="navigation-header__nav-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="18" y1="20" x2="18" y2="10" />
+              <line x1="12" y1="20" x2="12" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="14" />
             </svg>
             <span>{{ item.label }}</span>
             <span
@@ -201,9 +228,10 @@
           (click)="toggleUserMenu()"
         >
           <img
-            [src]="userProfile.avatar || 'assets/images/default-avatar.png'"
+            [src]="getAvatarUrl(userProfile.email)"
             [alt]="'Foto de perfil de ' + userProfile.name"
             class="navigation-header__user-avatar"
+            (error)="onImageError($event)"
           />
           <span class="navigation-header__user-name">{{
             userProfile.name

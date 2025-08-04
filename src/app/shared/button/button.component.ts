@@ -33,6 +33,7 @@ export class ButtonComponent {
       this.fullWidth ? 'button--full-width' : '',
       this.iconOnly ? 'button--icon-only' : '',
       this.loading ? 'button--loading' : '',
+      this.icon ? 'button--has-icon' : '',
     ];
     return classes.filter(Boolean).join(' ');
   }

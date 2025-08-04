@@ -23,7 +23,6 @@
     @include mixins.focus-ring();
   }
 
-  // Error variant
   &--error {
     background-color: #fef2f2;
     @include mixins.border-light();
@@ -54,7 +53,6 @@
     }
   }
 
-  // Warning variant
   &--warning {
     background-color: #fffbeb;
     @include mixins.border-light();
@@ -85,7 +83,6 @@
     }
   }
 
-  // Success variant
   &--success {
     background-color: #f0fdf4;
     @include mixins.border-light();
@@ -116,7 +113,6 @@
     }
   }
 
-  // Info variant
   &--info {
     background-color: #eff6ff;
     @include mixins.border-light();
@@ -147,7 +143,6 @@
     }
   }
 
-  // Modal variant
   &--modal {
     background-color: var(--white);
     @include mixins.border-light();
@@ -186,7 +181,6 @@
     }
   }
 
-  // Compact variant
   &--compact {
     @include mixins.padding-lg();
 
@@ -214,7 +208,6 @@
     }
   }
 
-  // Full width variant
   &--full-width {
     margin: 1.5rem 0;
 

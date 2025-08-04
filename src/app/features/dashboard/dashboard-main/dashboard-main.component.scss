@@ -1,7 +1,7 @@
-// Dashboard Principal Component Styles
-// Base Dashboard Styles
+@use "../../../../styles/mixins";
+
 .dashboard {
-  min-height: calc(100vh - 64px); // Ajustar para la barra de navegación
+  min-height: calc(100vh - 64px);
   background: var(--background-secondary);
 
   &__hero {
@@ -10,7 +10,7 @@
       var(--primary-color) 0%,
       var(--primary-light) 100%
     );
-    color: white;
+    color: var(--white);
     padding: var(--spacing-xl) 0;
     margin-bottom: var(--spacing-lg);
   }
@@ -21,32 +21,29 @@
   }
 
   &__title {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
+    @include mixins.text-2xl();
+    @include mixins.font-bold();
     margin: 0 0 var(--spacing-sm);
     letter-spacing: -0.025em;
   }
 
   &__subtitle {
-    font-size: var(--font-size-base);
+    @include mixins.text-base();
     opacity: 0.9;
     margin: 0;
-    font-weight: var(--font-weight-normal);
+    @include mixins.font-medium();
   }
 
   &__summary {
-    display: grid;
+    @include mixins.responsive-grid(auto-fit, var(--spacing-lg));
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-lg);
   }
 
   &__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
+    @include mixins.responsive-grid(1, var(--spacing-lg));
     padding-bottom: var(--spacing-xl);
 
-    @media (min-width: 1024px) {
+    @include mixins.desktop() {
       grid-template-columns: 1fr 1fr;
 
       .dashboard__section--products {
@@ -56,37 +53,31 @@
   }
 
   &__section {
-    background: var(--background);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-light);
+    @include mixins.card-base();
+    @include mixins.padding-lg();
 
     &--compact {
-      padding: var(--spacing-md);
+      @include mixins.padding-md();
     }
   }
 }
 
 // Section Headers
 .section__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include mixins.flex-between();
   margin-bottom: var(--spacing-lg);
 }
 
 .section__title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
+  @include mixins.text-xl();
+  @include mixins.font-semibold();
   color: var(--text-primary);
   margin: 0;
 }
 
 // Credit Cards Container
 .credit-cards {
-  display: grid;
-  gap: var(--spacing-lg);
+  @include mixins.responsive-grid(1, var(--spacing-lg));
 
   &--compact {
     gap: var(--spacing-md);
@@ -95,8 +86,7 @@
 
 // Transactions List Container
 .transactions-list {
-  display: grid;
-  gap: var(--spacing-md);
+  @include mixins.responsive-grid(1, var(--spacing-md));
 
   &--compact {
     gap: var(--spacing-sm);
@@ -111,20 +101,19 @@
 }
 
 .chart-controls {
-  display: flex;
-  gap: var(--spacing-xs);
+  @include mixins.responsive-flex(row, var(--spacing-xs));
 }
 
 .chart-control {
   background: none;
-  border: 1px solid var(--border-color);
+  @include mixins.border-light();
   color: var(--text-secondary);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  @include mixins.padding-sm();
+  @include mixins.border-radius(var(--radius-sm));
+  @include mixins.text-sm();
+  @include mixins.font-medium();
   cursor: pointer;
-  transition: all var(--transition-normal);
+  @include mixins.transition-normal();
 
   &:hover {
     border-color: var(--accent-color);
@@ -134,7 +123,7 @@
   &--active {
     background: var(--accent-color);
     border-color: var(--accent-color);
-    color: white;
+    color: var(--white);
 
     &:hover {
       background: var(--primary-light);
@@ -145,16 +134,14 @@
 
 .chart-container {
   height: 300px;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
+  @include mixins.border-light();
+  @include mixins.border-radius(var(--radius-md));
   background: var(--background-secondary);
 }
 
 .chart-placeholder {
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include mixins.flex-center();
 
   &__content {
     text-align: center;
@@ -168,23 +155,22 @@
   }
 
   &__text {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-medium);
+    @include mixins.text-lg();
+    @include mixins.font-medium();
     color: var(--text-secondary);
     margin: 0 0 var(--spacing-xs);
   }
 
   &__note {
-    font-size: var(--font-size-sm);
+    @include mixins.text-sm();
     color: var(--text-muted);
   }
 }
 
 // Product Cards Container
 .product-cards {
-  display: grid;
+  @include mixins.responsive-grid(auto-fit, var(--spacing-xl));
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--spacing-xl);
 
   &--compact {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -193,27 +179,27 @@
 }
 
 // Responsive Adjustments
-@media (max-width: 1024px) {
+@include mixins.desktop() {
   .dashboard__grid {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 768px) {
+@include mixins.tablet() {
   .dashboard__hero {
     padding: var(--spacing-xl) 0;
   }
 
   .dashboard__title {
-    font-size: var(--font-size-3xl);
+    @include mixins.text-2xl();
   }
 
   .dashboard__subtitle {
-    font-size: var(--font-size-base);
+    @include mixins.text-base();
   }
 
   .dashboard__section {
-    padding: var(--spacing-lg);
+    @include mixins.padding-lg();
   }
 
   .section__header {
@@ -223,7 +209,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@include mixins.mobile() {
   .dashboard__summary {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);

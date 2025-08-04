@@ -21,14 +21,9 @@ import {
   providedIn: 'root',
 })
 export class FinancialDataService {
-  // Mock transaction data
   private readonly mockTransactions: Transaction[] = MOCK_TRANSACTIONS;
-
-  // Mock account balances
   private readonly mockAccountBalances: AccountBalance[] =
     MOCK_ACCOUNT_BALANCES;
-
-  // Mock loan applications
   private readonly mockLoanApplications: LoanApplication[] =
     MOCK_LOAN_APPLICATIONS;
 
@@ -123,7 +118,6 @@ export class FinancialDataService {
     userId: string,
     requestedAmount: number,
   ): Observable<LoanEligibility> {
-    // Mock eligibility calculation based on user data
     const user = this.getMockUser(userId);
     if (!user) {
       throw new Error('Usuario no encontrado');
@@ -133,7 +127,6 @@ export class FinancialDataService {
     const monthlyIncome = user.employmentInfo.monthlyIncome;
     const currentBalance = user.accountBalance;
 
-    // Simple eligibility calculation
     const isEligible = creditScore >= 700 && monthlyIncome >= 5000;
     const maxLoanAmount = Math.min(monthlyIncome * 3, 50000);
     const recommendedTerm = requestedAmount <= 10000 ? 24 : 36;
@@ -164,16 +157,13 @@ export class FinancialDataService {
     return of(eligibility).pipe(delay(800));
   }
 
-  private getMockUser(
-    userId: string,
-  ):
+  private getMockUser(userId: string):
     | {
         creditScore: number;
         employmentInfo: { monthlyIncome: number; employmentStartDate: Date };
         accountBalance: number;
       }
     | undefined {
-    // This would normally come from a user service
     const mockUsers = [
       {
         id: '1',
@@ -215,6 +205,6 @@ export class FinancialDataService {
   private calculateEmploymentHistory(startDate: Date): number {
     const months =
       (new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30);
-    return Math.min(months, 60); // Cap at 60 months for scoring
+    return Math.min(months, 60);
   }
 }

@@ -22,7 +22,7 @@ export class SessionMonitorService implements OnDestroy {
 
   private isMonitoring = false;
   private destroy$ = new Subject<void>();
-  private dismissedWarnings = new Set<string>(); // Para recordar advertencias cerradas
+  private dismissedWarnings = new Set<string>();
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -37,13 +37,9 @@ export class SessionMonitorService implements OnDestroy {
 
   private startMonitoring(): void {
     if (this.isMonitoring) return;
-
     this.isMonitoring = true;
-
-    // Verificar inmediatamente al iniciar
     this.checkSessionStatus();
 
-    // Verificar cada segundo para timer dinámico
     interval(1000)
       .pipe(
         takeUntil(this.destroy$),
@@ -63,29 +59,22 @@ export class SessionMonitorService implements OnDestroy {
   private checkSessionStatus(): void {
     if (!this.authenticationService.isUserAuthenticated()) {
       this.sessionWarningSubject.next(null);
-      this.dismissedWarnings.clear(); // Limpiar advertencias cerradas al desautenticarse
+      this.dismissedWarnings.clear();
       return;
     }
 
     const timeRemaining = this.authenticationService.getSessionTimeRemaining();
 
-    // Si no hay tiempo restante, cerrar sesión automáticamente
     if (timeRemaining <= 0) {
-      // Limpiar inmediatamente la advertencia
       this.sessionWarningSubject.next(null);
-      // Limpiar advertencias cerradas
       this.dismissedWarnings.clear();
-      // Detener el monitoreo
       this.stopMonitoring();
 
-      // Cerrar sesión y redirigir usando Router
       this.authenticationService.logoutUser().subscribe({
         next: () => {
-          // Usar Router para redirección limpia
           this.router.navigate(['/login'], { replaceUrl: true });
         },
         error: (error) => {
-          // Redirigir de todas formas usando Router
           this.router.navigate(['/login'], { replaceUrl: true });
         },
       });
@@ -95,7 +84,6 @@ export class SessionMonitorService implements OnDestroy {
     const minutesRemaining = Math.floor(timeRemaining / 60);
     const secondsRemaining = timeRemaining % 60;
 
-    // Advertencia crítica: menos de 1 minuto (siempre se muestra)
     if (timeRemaining <= 60) {
       console.log('Showing critical warning, time remaining:', timeRemaining);
       this.sessionWarningSubject.next({
@@ -104,9 +92,7 @@ export class SessionMonitorService implements OnDestroy {
         timeRemaining,
         showExtendButton: true,
       });
-    }
-    // Advertencia: menos de 2 minutos (solo si no se ha cerrado antes)
-    else if (timeRemaining <= 120 && !this.dismissedWarnings.has('warning')) {
+    } else if (timeRemaining <= 120 && !this.dismissedWarnings.has('warning')) {
       console.log(
         'Showing normal warning, time remaining:',
         timeRemaining,
@@ -119,9 +105,7 @@ export class SessionMonitorService implements OnDestroy {
         timeRemaining,
         showExtendButton: true,
       });
-    }
-    // Sin advertencia
-    else {
+    } else {
       if (timeRemaining > 120) {
         console.log('No warning needed, time remaining:', timeRemaining);
       } else {
@@ -140,7 +124,6 @@ export class SessionMonitorService implements OnDestroy {
     return new Observable((observer) => {
       this.authenticationService.extendSession().subscribe({
         next: () => {
-          // Limpiar la advertencia inmediatamente y resetear las advertencias cerradas
           this.sessionWarningSubject.next(null);
           this.dismissedWarnings.clear();
           observer.next();
@@ -158,20 +141,14 @@ export class SessionMonitorService implements OnDestroy {
     console.log('Dismissing warning:', currentWarning);
 
     if (currentWarning) {
-      // Si es una advertencia normal, marcarla como cerrada
       if (currentWarning.type === 'warning') {
         console.log('Dismissing normal warning');
         this.dismissedWarnings.add('warning');
         this.sessionWarningSubject.next(null);
-      }
-      // Si es crítica, cerrar sesión automáticamente
-      else if (currentWarning.type === 'critical') {
+      } else if (currentWarning.type === 'critical') {
         console.log('Dismissing critical warning - logging out');
-        // Primero detener el monitoreo para evitar más advertencias
         this.stopMonitoring();
-        // Limpiar la advertencia
         this.sessionWarningSubject.next(null);
-        // Limpiar advertencias cerradas
         this.dismissedWarnings.clear();
 
         this.authenticationService.logoutUser().subscribe({

@@ -11,12 +11,9 @@ import { MOCK_USERS } from '../data/mock/mock-data';
 export class AuthenticationService {
   private currentSessionSubject = new BehaviorSubject<UserSession | null>(null);
   public currentSession$ = this.currentSessionSubject.asObservable();
-
-  // Mock user data
   private readonly mockUsers: User[] = MOCK_USERS;
 
   constructor() {
-    // Check for existing session in localStorage
     this.loadSessionFromStorage();
     this.checkAndCleanExpiredSession();
   }
@@ -41,16 +38,13 @@ export class AuthenticationService {
       );
     }
 
-    // Mock password validation (in real app, this would be server-side)
-    // Para pruebas, cualquier contraseña funciona, pero en producción sería validada contra el servidor
     if (credentials.password.length < 6) {
       return throwError(
         () => new Error('La contraseña debe tener al menos 6 caracteres'),
       );
     }
 
-    // Para la prueba técnica: usar 5 minutos
-    const sessionDuration = 5 * 60 * 1000; // 5 minutos
+    const sessionDuration = 5 * 60 * 1000;
 
     const session: UserSession = {
       user,
@@ -59,7 +53,7 @@ export class AuthenticationService {
     };
 
     return of(session).pipe(
-      delay(1000), // Simulate network delay
+      delay(1000),
       tap((session) => {
         this.setCurrentSession(session);
         this.saveSessionToStorage(session);
@@ -69,7 +63,7 @@ export class AuthenticationService {
 
   public logoutUser(): Observable<void> {
     return of(void 0).pipe(
-      delay(100), // Reducir delay para respuesta más rápida
+      delay(100),
       tap(() => {
         this.clearCurrentSession();
         this.removeSessionFromStorage();
@@ -84,15 +78,13 @@ export class AuthenticationService {
       return of(null);
     }
 
-    // Check if session is expired
     if (currentSession.expiresAt < new Date()) {
       this.clearCurrentSession();
       this.removeSessionFromStorage();
       return of(null);
     }
 
-    // Refresh token
-    const sessionDuration = 5 * 60 * 1000; // 5 minutos
+    const sessionDuration = 5 * 60 * 1000;
 
     const refreshedSession: UserSession = {
       ...currentSession,
@@ -128,7 +120,7 @@ export class AuthenticationService {
 
     const now = new Date();
     const timeRemaining = session.expiresAt.getTime() - now.getTime();
-    return Math.max(0, Math.floor(timeRemaining / 1000)); // Retorna segundos restantes
+    return Math.max(0, Math.floor(timeRemaining / 1000));
   }
 
   public extendSession(): Observable<UserSession> {
@@ -138,7 +130,7 @@ export class AuthenticationService {
       return throwError(() => new Error('No hay sesión activa para extender'));
     }
 
-    const sessionDuration = 5 * 60 * 1000; // 5 minutos
+    const sessionDuration = 5 * 60 * 1000;
 
     const extendedSession: UserSession = {
       ...currentSession,
@@ -147,7 +139,7 @@ export class AuthenticationService {
     };
 
     return of(extendedSession).pipe(
-      delay(300), // Simular delay de red
+      delay(300),
       tap((session) => {
         this.setCurrentSession(session);
         this.saveSessionToStorage(session);
@@ -184,7 +176,6 @@ export class AuthenticationService {
     if (storedSession) {
       try {
         const session: UserSession = JSON.parse(storedSession);
-        // Convert date strings back to Date objects
         session.expiresAt = new Date(session.expiresAt);
         session.user.dateOfBirth = new Date(session.user.dateOfBirth);
         session.user.employmentInfo.employmentStartDate = new Date(
@@ -208,8 +199,6 @@ export class AuthenticationService {
   private removeSessionFromStorage(): void {
     try {
       localStorage.removeItem('financial-dashboard-session');
-    } catch (error) {
-      // Silenciar error de localStorage
-    }
+    } catch (error) {}
   }
 }

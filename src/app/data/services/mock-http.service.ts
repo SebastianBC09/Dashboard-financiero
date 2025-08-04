@@ -25,7 +25,6 @@ import {
   providedIn: 'root',
 })
 export class MockHttpService {
-  // Servicio HTTP mock simplificado que solo maneja GET y POST
   private mockData = {
     users: [...MOCK_USERS],
     transactions: [...MOCK_TRANSACTIONS],
@@ -35,7 +34,6 @@ export class MockHttpService {
 
   constructor(private http: HttpClient) {}
 
-  // GET requests - Para obtener datos (usuarios, transacciones, balances, préstamos)
   public get<T>(
     url: string,
     options?: { params?: HttpParams; headers?: HttpHeaders },
@@ -115,7 +113,6 @@ export class MockHttpService {
     }).pipe(delay(getRandomDelay()));
   }
 
-  // POST requests - Para autenticación y crear nuevos recursos
   public post<T>(
     url: string,
     body: unknown,
@@ -194,7 +191,6 @@ export class MockHttpService {
     }).pipe(delay(getRandomDelay()));
   }
 
-  // Métodos de utilidad para resetear datos
   public resetMockData(): void {
     this.mockData = {
       users: [...MOCK_USERS],

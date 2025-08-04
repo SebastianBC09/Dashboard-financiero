@@ -1,0 +1,366 @@
+<section
+  class="credit-request"
+  [attr.aria-label]="'Formulario de solicitud de crédito'"
+>
+  <div class="credit-request__container">
+    <header class="credit-request__header">
+      <h1 class="credit-request__title">Solicitud de Crédito</h1>
+      <p class="credit-request__subtitle">
+        Completa la información para simular tu solicitud de crédito
+      </p>
+    </header>
+    <app-loading-spinner *ngIf="isLoading" />
+    <app-message
+      *ngIf="errorMessage"
+      type="error"
+      [message]="errorMessage"
+      (dismiss)="clearError()"
+    />
+    <app-message
+      *ngIf="showSuccess && successMessage"
+      type="success"
+      [message]="successMessage"
+      (dismiss)="clearSuccess()"
+    />
+    <div *ngIf="showSuccess" class="credit-request__success-info">
+      <div class="credit-request__success-icon" aria-hidden="true">✅</div>
+      <h2 class="credit-request__success-title">Solicitud Recibida</h2>
+      <p class="credit-request__success-description">
+        Hemos recibido tu solicitud de crédito y la estamos procesando.
+        Recibirás una notificación por correo electrónico con los próximos
+        pasos.
+      </p>
+      <div class="credit-request__success-details">
+        <div class="credit-request__success-detail">
+          <strong>Tiempo de respuesta:</strong> 3-5 días hábiles
+        </div>
+        <div class="credit-request__success-detail">
+          <strong>Forma de contacto:</strong> Correo electrónico y teléfono
+        </div>
+        <div class="credit-request__success-detail">
+          <strong>Documentos requeridos:</strong> Se te informará en la
+          respuesta
+        </div>
+      </div>
+    </div>
+    <form
+      *ngIf="!showSuccess"
+      class="credit-request__form"
+      [formGroup]="creditForm"
+      (ngSubmit)="onSubmit()"
+      novalidate
+      role="form"
+      aria-label="Formulario de solicitud de crédito"
+    >
+      <fieldset class="credit-request__fieldset">
+        <legend class="credit-request__legend">Tipo de Crédito</legend>
+        <div
+          class="credit-request__radio-group"
+          role="radiogroup"
+          aria-labelledby="credit-type-legend"
+        >
+          <div class="credit-request__radio-item">
+            <input
+              type="radio"
+              id="personal"
+              name="creditType"
+              value="personal"
+              class="credit-request__radio-input"
+              formControlName="creditType"
+              aria-describedby="personal-desc"
+            />
+            <label for="personal" class="credit-request__radio-label">
+              <div class="credit-request__radio-content">
+                <span class="credit-request__radio-title"
+                  >Crédito Personal</span
+                >
+                <span class="credit-request__radio-desc" id="personal-desc">
+                  Para gastos personales, viajes o emergencias
+                </span>
+              </div>
+            </label>
+          </div>
+          <div class="credit-request__radio-item">
+            <input
+              type="radio"
+              id="vehicle"
+              name="creditType"
+              value="vehicle"
+              class="credit-request__radio-input"
+              formControlName="creditType"
+              aria-describedby="vehicle-desc"
+            />
+            <label for="vehicle" class="credit-request__radio-label">
+              <div class="credit-request__radio-content">
+                <span class="credit-request__radio-title"
+                  >Crédito Vehicular</span
+                >
+                <span class="credit-request__radio-desc" id="vehicle-desc">
+                  Para la compra de vehículos nuevos o usados
+                </span>
+              </div>
+            </label>
+          </div>
+          <div class="credit-request__radio-item">
+            <input
+              type="radio"
+              id="housing"
+              name="creditType"
+              value="housing"
+              class="credit-request__radio-input"
+              formControlName="creditType"
+              aria-describedby="housing-desc"
+            />
+            <label for="housing" class="credit-request__radio-label">
+              <div class="credit-request__radio-content">
+                <span class="credit-request__radio-title"
+                  >Crédito Hipotecario</span
+                >
+                <span class="credit-request__radio-desc" id="housing-desc">
+                  Para la compra de vivienda o refinanciamiento
+                </span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      <div class="credit-request__field-group">
+        <label for="amount" class="credit-request__label">
+          Monto Deseado
+          <span class="credit-request__required" aria-label="Campo requerido"
+            >*</span
+          >
+        </label>
+        <div class="credit-request__input-wrapper">
+          <span class="credit-request__currency" aria-hidden="true">$</span>
+          <input
+            type="text"
+            id="amount"
+            name="amount"
+            class="credit-request__input credit-request__input--currency"
+            [value]="getFormattedValue('amount')"
+            (input)="onAmountInput($event)"
+            placeholder="0"
+            autocomplete="off"
+            aria-describedby="amount-help amount-error"
+            aria-invalid="false"
+          />
+        </div>
+        <div class="credit-request__help-text" id="amount-help">
+          Ingresa el monto que necesitas (mínimo $500,000)
+        </div>
+        <app-message
+          *ngIf="getFieldError('amount')"
+          type="error"
+          [message]="getFieldError('amount')"
+          class="credit-request__field-error"
+        />
+      </div>
+      <div class="credit-request__field-group">
+        <label for="term" class="credit-request__label">
+          Plazo
+          <span class="credit-request__required" aria-label="Campo requerido"
+            >*</span
+          >
+        </label>
+        <select
+          id="term"
+          name="term"
+          class="credit-request__select"
+          formControlName="term"
+          aria-describedby="term-help term-error"
+          aria-invalid="false"
+        >
+          <option value="" disabled>Selecciona el plazo</option>
+          <option value="12">12 meses</option>
+          <option value="24">24 meses</option>
+          <option value="36">36 meses</option>
+          <option value="48">48 meses</option>
+          <option value="60">60 meses</option>
+          <option value="72">72 meses</option>
+        </select>
+        <div class="credit-request__help-text" id="term-help">
+          Selecciona el tiempo en el que deseas pagar tu crédito
+        </div>
+        <app-message
+          *ngIf="getFieldError('term')"
+          type="error"
+          [message]="getFieldError('term')"
+          class="credit-request__field-error"
+        />
+      </div>
+      <div class="credit-request__field-group">
+        <label for="monthlyIncome" class="credit-request__label">
+          Ingresos Mensuales
+          <span class="credit-request__required" aria-label="Campo requerido"
+            >*</span
+          >
+        </label>
+        <div class="credit-request__input-wrapper">
+          <span class="credit-request__currency" aria-hidden="true">$</span>
+          <input
+            type="text"
+            id="monthlyIncome"
+            name="monthlyIncome"
+            class="credit-request__input credit-request__input--currency"
+            [value]="getFormattedValue('monthlyIncome')"
+            (input)="onIncomeInput($event)"
+            placeholder="0"
+            autocomplete="off"
+            aria-describedby="income-help income-error"
+            aria-invalid="false"
+          />
+        </div>
+        <div class="credit-request__help-text" id="income-help">
+          Ingresa tus ingresos mensuales aproximados
+        </div>
+        <app-message
+          *ngIf="getFieldError('monthlyIncome')"
+          type="error"
+          [message]="getFieldError('monthlyIncome')"
+          class="credit-request__field-error"
+        />
+      </div>
+      <div class="credit-request__checkbox-group">
+        <div class="credit-request__checkbox-item">
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            class="credit-request__checkbox-input"
+            formControlName="terms"
+            aria-describedby="terms-error"
+          />
+          <label for="terms" class="credit-request__checkbox-label">
+            Acepto los
+            <a
+              href="/terminos"
+              class="credit-request__link"
+              target="_blank"
+              rel="noopener"
+            >
+              términos y condiciones
+            </a>
+            y la
+            <a
+              href="/privacidad"
+              class="credit-request__link"
+              target="_blank"
+              rel="noopener"
+            >
+              política de privacidad
+            </a>
+            <span class="credit-request__required" aria-label="Campo requerido"
+              >*</span
+            >
+          </label>
+        </div>
+        <app-message
+          *ngIf="getFieldError('terms')"
+          type="error"
+          [message]="getFieldError('terms')"
+          class="credit-request__field-error"
+        />
+      </div>
+      <div class="credit-request__actions">
+        <app-button
+          variant="secondary"
+          (click)="onCancel()"
+          [disabled]="isSimulating"
+        >
+          Cancelar
+        </app-button>
+        <app-button
+          type="submit"
+          variant="primary"
+          [disabled]="creditForm.invalid || isSimulating"
+          [loading]="isSimulating"
+        >
+          {{ isSimulating ? "Simulando..." : "Simular Crédito" }} →
+        </app-button>
+      </div>
+    </form>
+    <div
+      *ngIf="showSimulation && simulation && !showSuccess"
+      class="credit-request__simulation"
+    >
+      <h2 class="credit-request__simulation-title">Simulación de Crédito</h2>
+      <div class="credit-request__simulation-content">
+        <div class="credit-request__simulation-item">
+          <span class="credit-request__simulation-label">Cuota Mensual:</span>
+          <span class="credit-request__simulation-value"
+            >${{ simulation.estimatedMonthlyPayment.toLocaleString() }}</span
+          >
+        </div>
+        <div class="credit-request__simulation-item">
+          <span class="credit-request__simulation-label">Tasa de Interés:</span>
+          <span class="credit-request__simulation-value"
+            >{{ (simulation.interestRate * 100).toFixed(1) }}% mensual</span
+          >
+        </div>
+        <div class="credit-request__simulation-item">
+          <span class="credit-request__simulation-label">Total a Pagar:</span>
+          <span class="credit-request__simulation-value"
+            >${{ simulation.totalAmount.toLocaleString() }}</span
+          >
+        </div>
+        <div class="credit-request__simulation-item">
+          <span class="credit-request__simulation-label"
+            >Probabilidad de Aprobación:</span
+          >
+          <span
+            class="credit-request__simulation-probability"
+            [class]="
+              'credit-request__simulation-probability--' +
+              simulation.approvalProbability
+            "
+          >
+            {{
+              simulation.approvalProbability === "high"
+                ? "Alta"
+                : simulation.approvalProbability === "medium"
+                  ? "Media"
+                  : "Baja"
+            }}
+          </span>
+        </div>
+      </div>
+      <div class="credit-request__simulation-recommendations">
+        <h3>Recomendaciones:</h3>
+        <ul>
+          <li *ngFor="let recommendation of simulation.recommendations">
+            {{ recommendation }}
+          </li>
+        </ul>
+      </div>
+      <div class="credit-request__simulation-actions">
+        <app-button variant="secondary" (click)="showSimulation = false">
+          Modificar Solicitud
+        </app-button>
+        <app-button
+          variant="primary"
+          (click)="submitApplication()"
+          [loading]="isSubmitting"
+        >
+          {{ isSubmitting ? "Enviando..." : "Enviar Solicitud" }}
+        </app-button>
+      </div>
+    </div>
+    <aside
+      *ngIf="!showSuccess"
+      class="credit-request__security-notice"
+      role="complementary"
+    >
+      <div class="credit-request__security-icon" aria-hidden="true">🔒</div>
+      <p class="credit-request__security-text">
+        Tu información está protegida con encriptación de nivel bancario. Esta
+        simulación no afecta tu historial crediticio.
+      </p>
+    </aside>
+    <div *ngIf="showSuccess" class="credit-request__success-actions">
+      <app-button variant="primary" (click)="goToDashboard()">
+        Volver al Dashboard
+      </app-button>
+    </div>
+  </div>
+</section>

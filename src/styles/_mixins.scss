@@ -72,10 +72,6 @@
   border: 1px solid var(--form-gray-200);
 }
 
-@mixin border-medium {
-  border: 2px solid var(--form-gray-200);
-}
-
 @mixin shadow-sm {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
@@ -114,6 +110,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+@mixin text-xs {
+  font-size: 0.75rem;
+  line-height: 1.4;
 }
 
 @mixin text-sm {
@@ -173,76 +174,12 @@
   padding: $value;
 }
 
-@mixin padding-y($value: 0.5rem) {
-  padding-top: $value;
-  padding-bottom: $value;
-}
-
-@mixin padding-x($value: 0.5rem) {
-  padding-left: $value;
-  padding-right: $value;
-}
-
-@mixin padding-t($value: 0.5rem) {
-  padding-top: $value;
-}
-
-@mixin padding-b($value: 0.5rem) {
-  padding-bottom: $value;
-}
-
-@mixin padding-l($value: 0.5rem) {
-  padding-left: $value;
-}
-
-@mixin padding-r($value: 0.5rem) {
-  padding-right: $value;
-}
-
-@mixin margin-sm($value: 0.5rem) {
-  margin: $value;
-}
-
-@mixin margin-md($value: 0.75rem) {
-  margin: $value;
-}
-
-@mixin margin-lg($value: 1rem) {
-  margin: $value;
-}
-
-@mixin margin-xl($value: 1.5rem) {
-  margin: $value;
-}
-
-@mixin margin-2xl($value: 2rem) {
-  margin: $value;
-}
-
-@mixin margin-y($value: 0.5rem) {
-  margin-top: $value;
-  margin-bottom: $value;
-}
-
-@mixin margin-x($value: 0.5rem) {
-  margin-left: $value;
-  margin-right: $value;
-}
-
-@mixin margin-t($value: 0.5rem) {
-  margin-top: $value;
+@mixin padding-3xl($value: 3rem) {
+  padding: $value;
 }
 
 @mixin margin-b($value: 0.5rem) {
   margin-bottom: $value;
-}
-
-@mixin margin-l($value: 0.5rem) {
-  margin-left: $value;
-}
-
-@mixin margin-r($value: 0.5rem) {
-  margin-right: $value;
 }
 
 @mixin button-base {
@@ -277,37 +214,6 @@
   border-radius: var(--form-border-radius);
   @include shadow-sm;
   @include border-light;
-}
-
-@mixin input-base {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid var(--form-gray-200);
-  border-radius: var(--form-border-radius);
-  font-size: 1rem;
-  @include transition-normal;
-  background-color: var(--white);
-
-  &:focus {
-    @include focus-ring(var(--form-primary));
-    border-color: var(--form-primary);
-  }
-
-  &:hover:not(:focus) {
-    border-color: var(--form-gray-300);
-  }
-
-  &::placeholder {
-    color: var(--form-gray-400);
-  }
-
-  &[aria-invalid="true"] {
-    border-color: var(--form-error);
-
-    &:focus {
-      @include focus-ring(var(--form-error));
-    }
-  }
 }
 
 @mixin slide-in {

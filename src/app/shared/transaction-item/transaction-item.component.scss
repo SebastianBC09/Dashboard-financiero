@@ -1,111 +1,246 @@
+@use "../../../styles/mixins";
+
 .transaction-item {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-lg);
+  width: 100%;
+  margin: 0;
+  @include mixins.padding-lg();
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-normal);
-}
+  @include mixins.border-radius(var(--radius-md));
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1.5;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  @include mixins.transition-normal();
+  animation: none;
+  overflow: visible;
+  opacity: 1;
+  gap: var(--spacing-lg);
 
-.transaction-item:hover {
-  background: var(--background-secondary);
-  border-color: var(--border-color);
+  &:hover {
+    background: var(--background-secondary);
+    border-color: var(--border-color);
+  }
 }
 
 .transaction-item__icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  @include mixins.flex-center();
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  @include mixins.border-radius(var(--radius-md));
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
   flex-shrink: 0;
-}
 
-.transaction-item__icon--payment {
-  background: rgba(56, 161, 105, 0.1);
-  color: var(--success-color);
-}
+  &--payment {
+    background: rgba(56, 161, 105, 0.1);
+    color: var(--success-color);
+  }
 
-.transaction-item__icon--disbursement {
-  background: rgba(49, 130, 206, 0.1);
-  color: var(--accent-color);
-}
+  &--disbursement {
+    background: rgba(49, 130, 206, 0.1);
+    color: var(--accent-color);
+  }
 
-.transaction-item__icon--transfer {
-  background: rgba(128, 90, 213, 0.1);
-  color: #805ad5;
-}
+  &--transfer {
+    background: rgba(128, 90, 213, 0.1);
+    color: #805ad5;
+  }
 
-.transaction-item__icon--withdrawal {
-  background: rgba(237, 137, 54, 0.1);
-  color: #ed8936;
-}
+  &--withdrawal {
+    background: rgba(237, 137, 54, 0.1);
+    color: #ed8936;
+  }
 
-.transaction-item__icon--deposit {
-  background: rgba(56, 161, 105, 0.1);
-  color: var(--success-color);
+  &--deposit {
+    background: rgba(56, 161, 105, 0.1);
+    color: var(--success-color);
+  }
 }
 
 .transaction-item__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1.5;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
   min-width: 0;
 }
 
 .transaction-item__title {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 0 var(--spacing-xs) 0;
+  padding: 0;
+  background: transparent;
+  @include mixins.text-base();
+  @include mixins.font-medium();
   color: var(--text-primary);
-  margin: 0 0 var(--spacing-xs);
+  line-height: 1.4;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
 }
 
 .transaction-item__description {
-  font-size: var(--font-size-sm);
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 0 var(--spacing-xs) 0;
+  padding: 0;
+  background: transparent;
+  @include mixins.text-sm();
   color: var(--text-secondary);
-  margin: 0 0 var(--spacing-xs);
+  line-height: 1.4;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
 }
 
 .transaction-item__date {
-  font-size: var(--font-size-xs);
+  position: relative;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  @include mixins.text-xs();
   color: var(--text-muted);
   text-transform: uppercase;
+  line-height: 1.3;
+  white-space: normal;
   letter-spacing: 0.05em;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
 }
 
 .transaction-item__amount {
-  text-align: right;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1.5;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
   flex-shrink: 0;
+  text-align: right;
 }
 
 .transaction-item__value {
+  position: relative;
   display: block;
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--spacing-xs);
-}
+  width: 100%;
+  margin: 0 0 var(--spacing-xs) 0;
+  padding: 0;
+  background: transparent;
+  @include mixins.text-lg();
+  @include mixins.font-semibold();
+  color: var(--text-primary);
+  line-height: 1.4;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
 
-.transaction-item__value--debit {
-  color: var(--error-color);
-}
+  &--debit {
+    color: var(--error-color);
+  }
 
-.transaction-item__value--credit {
-  color: var(--success-color);
+  &--credit {
+    color: var(--success-color);
+  }
 }
 
 .transaction-item__type {
+  position: relative;
   display: block;
-  font-size: var(--font-size-xs);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  @include mixins.text-xs();
   color: var(--text-muted);
   text-transform: uppercase;
+  line-height: 1.3;
+  white-space: normal;
   letter-spacing: 0.05em;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
+@include mixins.mobile() {
   .transaction-item {
     gap: var(--spacing-md);
-    padding: var(--spacing-md);
+    @include mixins.padding-md();
   }
 
   .transaction-item__amount {

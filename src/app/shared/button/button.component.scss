@@ -1,11 +1,44 @@
 @use "../../../styles/mixins";
 
 .button {
-  @include mixins.button-base();
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  margin: 0;
+  @include mixins.padding-md();
+  border: 1px solid transparent;
+  @include mixins.border-radius(var(--radius-md));
+  background: transparent;
+  font-family: inherit;
+  @include mixins.text-sm();
+  @include mixins.font-medium();
+  color: inherit;
+  line-height: 1.4;
+  white-space: nowrap;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  @include mixins.transition-normal();
+  animation: none;
+  overflow: visible;
+  opacity: 1;
+  cursor: pointer;
   gap: 0;
 
+  &:focus {
+    @include mixins.focus-ring();
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
   &--has-icon {
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
   }
 
   &:not(.button--has-icon) {
@@ -35,31 +68,40 @@
 
   &--primary {
     @include mixins.color-variant("primary");
-    @include mixins.hover-lift(-1px, 0 4px 12px rgba(59, 130, 246, 0.3));
+    @include mixins.hover-lift(
+      -0.0625rem,
+      0 0.25rem 0.75rem rgba(59, 130, 246, 0.3)
+    );
 
     &:active:not(:disabled) {
       transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0.125rem 0.25rem rgba(59, 130, 246, 0.2);
     }
   }
 
   &--secondary {
     @include mixins.color-variant("secondary");
-    @include mixins.hover-lift(-1px, 0 2px 8px rgba(0, 0, 0, 0.1));
+    @include mixins.hover-lift(
+      -0.0625rem,
+      0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)
+    );
 
     &:active:not(:disabled) {
       transform: translateY(0);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.05);
     }
   }
 
   &--danger {
     @include mixins.color-variant("error");
-    @include mixins.hover-lift(-1px, 0 4px 12px rgba(239, 68, 68, 0.3));
+    @include mixins.hover-lift(
+      -0.0625rem,
+      0 0.25rem 0.75rem rgba(239, 68, 68, 0.3)
+    );
 
     &:active:not(:disabled) {
       transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+      box-shadow: 0 0.125rem 0.25rem rgba(239, 68, 68, 0.2);
     }
   }
 
@@ -71,7 +113,7 @@
     &:hover:not(:disabled) {
       background-color: var(--form-gray-100);
       color: var(--form-gray-900);
-      @include mixins.hover-lift(-1px);
+      @include mixins.hover-lift(-0.0625rem);
     }
 
     &:active:not(:disabled) {
@@ -109,13 +151,43 @@
 }
 
 .button__spinner {
+  position: relative;
   @include mixins.flex-center();
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
 }
 
 .button__spinner-svg {
+  position: relative;
+  display: block;
   width: 1rem;
   height: 1rem;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
   @include mixins.spin();
+  overflow: visible;
+  opacity: 1;
 
   .button--small & {
     width: 0.875rem;
@@ -129,15 +201,60 @@
 }
 
 .button__icon--left {
-  margin-right: 0.25rem;
+  position: relative;
+  display: inline;
+  margin: 0 var(--spacing-xs) 0 0;
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
 }
 
 .button__icon--right {
-  margin-left: 0.25rem;
+  position: relative;
+  display: inline;
+  margin: 0 0 0 var(--spacing-xs);
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
 }
 
 .button__text {
+  position: relative;
   display: inline-block;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1.4;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
 }
 
 @keyframes spin {

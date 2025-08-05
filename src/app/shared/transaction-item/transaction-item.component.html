@@ -1,0 +1,28 @@
+<article class="transaction-item">
+  <div
+    class="transaction-item__icon transaction-item__icon--{{ data.type }}"
+    aria-hidden="true"
+  >
+    <fa-icon [icon]="getIcon()" class="fa-lg"></fa-icon>
+  </div>
+
+  <div class="transaction-item__content">
+    <h3 class="transaction-item__title">{{ data.title }}</h3>
+    <p class="transaction-item__description">{{ data.description }}</p>
+    <time class="transaction-item__date" [attr.datetime]="data.date">
+      {{ formatDate(data.date) }}
+    </time>
+  </div>
+
+  <div class="transaction-item__amount">
+    <span
+      class="transaction-item__value"
+      [class.transaction-item__value--credit]="data.isCredit"
+      [class.transaction-item__value--debit]="!data.isCredit"
+      [attr.aria-label]="getAriaLabel()"
+    >
+      {{ formatAmount(data.amount) }}
+    </span>
+    <span class="transaction-item__type">{{ getTypeLabel() }}</span>
+  </div>
+</article>

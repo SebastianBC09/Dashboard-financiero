@@ -1,1 +1,1 @@
-export * from './transaction-item.component';
+export { TransactionItemComponent } from './transaction-item.component';

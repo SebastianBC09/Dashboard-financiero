@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  position: relative;
+}
+
+router-outlet + * {
+  display: block;
+  min-height: 100vh;
+  position: relative;
+}
+
+app-navigation-header {
+  position: relative;
+  z-index: 1000;
+}
+
+.dashboard {
+  padding-top: 0;
+}
+
+.login-page {
+  position: relative;
+  z-index: 1;
+}

@@ -1,5 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faCalculator,
+  faCheckCircle,
+  faArrowLeft,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   FormBuilder,
   FormGroup,
@@ -23,6 +29,7 @@ import {
   standalone: true,
   imports: [
     CommonModule,
+    FontAwesomeModule,
     ReactiveFormsModule,
     ButtonComponent,
     MessageComponent,
@@ -41,6 +48,11 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
   simulation?: LoanSimulation;
   showSimulation = false;
   showSuccess = false;
+
+  faCalculator = faCalculator;
+  faCheckCircle = faCheckCircle;
+  faArrowLeft = faArrowLeft;
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -73,11 +85,7 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
       this.isSimulating = true;
       this.errorMessage = '';
       this.showSimulation = false;
-
-      // Obtener valores del formulario (ya están parseados como números)
       const request = this.creditForm.value;
-
-      // Simular el crédito
       this.loanApplicationService
         .simulateLoan(request)
         .pipe(takeUntil(this.destroy$))
@@ -103,7 +111,6 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
       this.errorMessage = '';
       this.successMessage = '';
 
-      // Obtener valores del formulario (ya están parseados como números)
       const request = this.creditForm.value;
 
       this.loanApplicationService
@@ -169,55 +176,41 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  // Formatear número con separadores de miles (puntos)
   formatNumber(value: string): string {
-    // Remover todos los caracteres no numéricos excepto la coma decimal
     const cleanValue = value.replace(/[^\d,]/g, '');
 
-    // Si no hay valor, retornar vacío
     if (!cleanValue) return '';
 
-    // Separar parte entera y decimal
     const parts = cleanValue.split(',');
     const integerPart = parts[0].replace(/\D/g, '');
     const decimalPart = parts[1] || '';
 
-    // Formatear parte entera con puntos
     const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-    // Reconstruir con decimal si existe
     return decimalPart
       ? `${formattedInteger},${decimalPart}`
       : formattedInteger;
   }
 
-  // Convertir valor formateado a número
   parseFormattedNumber(value: string): number {
     if (!value) return 0;
-
-    // Remover puntos y convertir coma a punto para JavaScript
     const cleanValue = value.replace(/\./g, '').replace(',', '.');
     return parseFloat(cleanValue) || 0;
   }
 
-  // Manejar input de monto
   onAmountInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     const formattedValue = this.formatNumber(input.value);
     input.value = formattedValue;
 
-    // Actualizar el valor en el formulario
     const numericValue = this.parseFormattedNumber(formattedValue);
     this.creditForm.patchValue({ amount: numericValue }, { emitEvent: false });
   }
-
-  // Manejar input de ingresos mensuales
   onIncomeInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     const formattedValue = this.formatNumber(input.value);
     input.value = formattedValue;
 
-    // Actualizar el valor en el formulario
     const numericValue = this.parseFormattedNumber(formattedValue);
     this.creditForm.patchValue(
       { monthlyIncome: numericValue },
@@ -225,7 +218,6 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Obtener valor formateado para display
   getFormattedValue(fieldName: string): string {
     const field = this.creditForm.get(fieldName);
     const value = field?.value;

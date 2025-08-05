@@ -1,0 +1,9 @@
+<div class="summary-card summary-card--{{ variant }}">
+  <div class="summary-card__content">
+    <h2 class="summary-card__title">{{ data.title }}</h2>
+    <p class="summary-card__amount" [attr.aria-label]="getAriaLabel()">
+      {{ formatAmount(data.amount) }}
+    </p>
+    <span class="summary-card__label" *ngIf="data.label">{{ data.label }}</span>
+  </div>
+</div>

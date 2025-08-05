@@ -1,0 +1,54 @@
+<div
+  *ngIf="
+    currentWarning &&
+    currentWarning.timeRemaining > 0 &&
+    authenticationService.isUserAuthenticated()
+  "
+  class="session-warning-overlay"
+>
+  <div class="session-warning-modal">
+    <app-message
+      [type]="currentWarning.type === 'critical' ? 'error' : 'warning'"
+      [message]="currentWarning.message"
+      variant="modal"
+      [showActions]="currentWarning.showExtendButton"
+      [primaryActionText]="'Extender Sesión'"
+      [secondaryActionText]="'Cerrar'"
+      [primaryAction]="extendSession"
+      [secondaryAction]="dismissWarning"
+      class="session-warning-message"
+    >
+    </app-message>
+
+    <div class="session-warning-timer">
+      <div class="timer-circle">
+        <svg class="timer-svg" viewBox="0 0 100 100">
+          <circle
+            class="timer-background"
+            cx="50"
+            cy="50"
+            r="45"
+            fill="none"
+            stroke="#e2e8f0"
+            stroke-width="8"
+          ></circle>
+          <circle
+            class="timer-progress"
+            cx="50"
+            cy="50"
+            r="45"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="8"
+            stroke-linecap="round"
+            [style.stroke-dasharray]="circumference"
+            [style.stroke-dashoffset]="getProgressOffset()"
+          ></circle>
+        </svg>
+        <div class="timer-text">
+          {{ formatTime(currentWarning.timeRemaining) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

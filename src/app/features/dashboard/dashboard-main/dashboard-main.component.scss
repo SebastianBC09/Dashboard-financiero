@@ -1,8 +1,10 @@
 @use "../../../../styles/mixins";
 
 .dashboard {
-  min-height: calc(100vh - 64px);
+  min-height: 100vh;
   background: var(--background-secondary);
+  position: relative;
+  z-index: 1;
 
   &__hero {
     background: linear-gradient(
@@ -13,6 +15,8 @@
     color: var(--white);
     padding: var(--spacing-xl) 0;
     margin-bottom: var(--spacing-lg);
+    position: relative;
+    z-index: 2;
   }
 
   &__header {
@@ -42,9 +46,11 @@
   &__grid {
     @include mixins.responsive-grid(1, var(--spacing-lg));
     padding-bottom: var(--spacing-xl);
+    position: relative;
+    z-index: 2;
 
-    @include mixins.desktop() {
-      grid-template-columns: 1fr 1fr;
+    @media (min-width: 1024px) {
+      grid-template-columns: 2fr 1fr;
 
       .dashboard__section--products {
         grid-column: 1 / -1;
@@ -55,6 +61,9 @@
   &__section {
     @include mixins.card-base();
     @include mixins.padding-lg();
+    background: var(--background);
+    position: relative;
+    z-index: 3;
 
     &--compact {
       @include mixins.padding-md();
@@ -75,7 +84,6 @@
   margin: 0;
 }
 
-// Credit Cards Container
 .credit-cards {
   @include mixins.responsive-grid(1, var(--spacing-lg));
 
@@ -84,7 +92,6 @@
   }
 }
 
-// Transactions List Container
 .transactions-list {
   @include mixins.responsive-grid(1, var(--spacing-md));
 
@@ -93,7 +100,6 @@
   }
 }
 
-// Chart Section
 .dashboard__section--chart {
   .section__header {
     align-items: flex-end;
@@ -167,7 +173,6 @@
   }
 }
 
-// Product Cards Container
 .product-cards {
   @include mixins.responsive-grid(auto-fit, var(--spacing-xl));
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -178,8 +183,7 @@
   }
 }
 
-// Responsive Adjustments
-@include mixins.desktop() {
+@media (max-width: 1023px) {
   .dashboard__grid {
     grid-template-columns: 1fr;
   }

@@ -1,23 +1,31 @@
 @use "../../../styles/mixins";
 
 .message {
-  @include mixins.flex-start();
-  gap: 1rem;
-  @include mixins.padding-xl();
-  @include mixins.border-radius(0.75rem);
-  @include mixins.shadow-md();
   position: relative;
-  max-width: 100%;
+  @include mixins.flex-start();
   width: 100%;
-  box-sizing: border-box;
-  @include mixins.slide-in();
+  max-width: 100%;
+  height: auto;
   margin: 0;
-
-  @include mixins.mobile() {
-    @include mixins.padding-lg();
-    gap: 0.75rem;
-    @include mixins.border-radius(0.5rem);
-  }
+  @include mixins.padding-lg();
+  border: 1px solid var(--border-light);
+  @include mixins.border-radius(0.75rem);
+  background: var(--background);
+  font-family: inherit;
+  color: inherit;
+  line-height: 1.5;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  @include mixins.transition-normal();
+  animation: none;
+  overflow: visible;
+  opacity: 1;
+  gap: 1rem;
+  box-sizing: border-box;
+  @include mixins.shadow-md();
+  @include mixins.slide-in();
 
   &:focus-within {
     @include mixins.focus-ring();
@@ -25,7 +33,6 @@
 
   &--error {
     background-color: #fef2f2;
-    @include mixins.border-light();
     border-color: #fecaca;
     color: #7f1d1d;
 
@@ -44,18 +51,20 @@
 
     .message__details {
       background-color: rgba(255, 255, 255, 0.6);
-      border-left: 3px solid var(--form-error);
+      border-left: 0.1875rem solid var(--form-error);
     }
 
     .message__button--primary {
       @include mixins.color-variant("error");
-      @include mixins.hover-lift(-1px, 0 4px 12px rgba(239, 68, 68, 0.3));
+      @include mixins.hover-lift(
+        -0.0625rem,
+        0 0.25rem 0.75rem rgba(239, 68, 68, 0.3)
+      );
     }
   }
 
   &--warning {
     background-color: #fffbeb;
-    @include mixins.border-light();
     border-color: #fed7aa;
     color: #92400e;
 
@@ -74,18 +83,20 @@
 
     .message__details {
       background-color: rgba(255, 255, 255, 0.6);
-      border-left: 3px solid var(--form-warning);
+      border-left: 0.1875rem solid var(--form-warning);
     }
 
     .message__button--primary {
       @include mixins.color-variant("warning");
-      @include mixins.hover-lift(-1px, 0 4px 12px rgba(245, 158, 11, 0.3));
+      @include mixins.hover-lift(
+        -0.0625rem,
+        0 0.25rem 0.75rem rgba(245, 158, 11, 0.3)
+      );
     }
   }
 
   &--success {
     background-color: #f0fdf4;
-    @include mixins.border-light();
     border-color: #bbf7d0;
     color: #166534;
 
@@ -104,18 +115,20 @@
 
     .message__details {
       background-color: rgba(255, 255, 255, 0.6);
-      border-left: 3px solid var(--form-success);
+      border-left: 0.1875rem solid var(--form-success);
     }
 
     .message__button--primary {
       @include mixins.color-variant("success");
-      @include mixins.hover-lift(-1px, 0 4px 12px rgba(34, 197, 94, 0.3));
+      @include mixins.hover-lift(
+        -0.0625rem,
+        0 0.25rem 0.75rem rgba(34, 197, 94, 0.3)
+      );
     }
   }
 
   &--info {
     background-color: #eff6ff;
-    @include mixins.border-light();
     border-color: #bfdbfe;
     color: #1e40af;
 
@@ -134,22 +147,24 @@
 
     .message__details {
       background-color: rgba(255, 255, 255, 0.6);
-      border-left: 3px solid var(--form-primary);
+      border-left: 0.1875rem solid var(--form-primary);
     }
 
     .message__button--primary {
       @include mixins.color-variant("primary");
-      @include mixins.hover-lift(-1px, 0 4px 12px rgba(59, 130, 246, 0.3));
+      @include mixins.hover-lift(
+        -0.0625rem,
+        0 0.25rem 0.75rem rgba(59, 130, 246, 0.3)
+      );
     }
   }
 
   &--modal {
     background-color: var(--white);
-    @include mixins.border-light();
     border-color: #e5e7eb;
     color: var(--form-gray-700);
     @include mixins.shadow-xl();
-    max-width: 500px;
+    max-width: 31.25rem;
     margin: 0 auto;
 
     .message__icon {
@@ -167,17 +182,23 @@
 
     .message__details {
       background-color: var(--form-gray-50);
-      border-left: 3px solid var(--form-gray-300);
+      border-left: 0.1875rem solid var(--form-gray-300);
     }
 
     .message__button--primary {
       @include mixins.color-variant("primary");
-      @include mixins.hover-lift(-1px, 0 4px 12px rgba(59, 130, 246, 0.3));
+      @include mixins.hover-lift(
+        -0.0625rem,
+        0 0.25rem 0.75rem rgba(59, 130, 246, 0.3)
+      );
     }
 
     .message__button--secondary {
       @include mixins.color-variant("secondary");
-      @include mixins.hover-lift(-1px, 0 2px 8px rgba(0, 0, 0, 0.1));
+      @include mixins.hover-lift(
+        -0.0625rem,
+        0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)
+      );
     }
   }
 
@@ -189,11 +210,6 @@
       height: 1.5rem;
     }
 
-    .message__svg {
-      width: 1rem;
-      height: 1rem;
-    }
-
     .message__title {
       @include mixins.text-base();
       margin-bottom: 0.25rem;
@@ -202,59 +218,100 @@
     .message__text {
       @include mixins.text-sm();
     }
-
-    @include mixins.mobile() {
-      @include mixins.padding-md();
-    }
   }
 
   &--full-width {
     margin: 1.5rem 0;
+  }
 
-    @include mixins.mobile() {
+  @include mixins.mobile() {
+    @include mixins.padding-lg();
+    gap: 0.75rem;
+    @include mixins.border-radius(0.5rem);
+
+    &.message--compact {
+      @include mixins.padding-md();
+    }
+
+    &.message--full-width {
       margin: 1rem 0;
     }
   }
 }
 
 .message__icon {
-  flex-shrink: 0;
+  position: relative;
+  @include mixins.flex-center();
   width: 2.5rem;
   height: 2.5rem;
-  @include mixins.flex-center();
-  @include mixins.border-radius(50%);
-  @include mixins.shadow-sm();
   margin: 0;
+  padding: 0;
+  @include mixins.border-radius(50%);
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
+  flex-shrink: 0;
+  @include mixins.shadow-sm();
   align-self: center;
 
   @include mixins.mobile() {
     width: 2rem;
     height: 2rem;
-    margin: 0;
-  }
-}
-
-.message__svg {
-  width: 1.25rem;
-  height: 1.25rem;
-
-  @include mixins.mobile() {
-    width: 1rem;
-    height: 1rem;
   }
 }
 
 .message__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1.5;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
   min-width: 0;
 }
 
 .message__title {
+  position: relative;
+  display: block;
+  width: 100%;
   margin: 0 0 0.5rem 0;
+  padding: 0;
+  background: transparent;
   @include mixins.text-lg();
   @include mixins.font-semibold();
+  color: inherit;
   line-height: 1.4;
+  white-space: normal;
   letter-spacing: -0.025em;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
   @include mixins.flex-start();
 
   @include mixins.mobile() {
@@ -264,22 +321,50 @@
 }
 
 .message__text {
+  position: relative;
+  display: block;
+  width: 100%;
   margin: 0;
+  padding: 0;
+  background: transparent;
   @include mixins.text-base();
   @include mixins.font-medium();
+  color: inherit;
   line-height: 1.5;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
   @include mixins.flex-start();
 
   @include mixins.mobile() {
     @include mixins.text-sm();
-    margin: 0;
   }
 }
 
 .message__details {
-  margin-top: 0.75rem;
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0.75rem 0 0 0;
   padding: 0.75rem;
-  border-radius: 0.375rem;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1.5;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
+  @include mixins.border-radius(0.375rem);
 
   @include mixins.mobile() {
     padding: 0.5rem;
@@ -288,10 +373,23 @@
 }
 
 .message__details-text {
+  position: relative;
+  display: block;
+  width: 100%;
   margin: 0;
+  padding: 0;
+  background: transparent;
   @include mixins.text-sm();
-  line-height: 1.4;
   color: var(--form-gray-700);
+  line-height: 1.4;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
   font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
 
   @include mixins.mobile() {
@@ -300,9 +398,25 @@
 }
 
 .message__actions {
+  position: relative;
   display: flex;
+  width: 100%;
+  height: auto;
+  margin: 1.25rem 0 0 0;
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1.5;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  transition: none;
+  animation: none;
+  overflow: visible;
+  opacity: 1;
   gap: 0.75rem;
-  margin-top: 1.25rem;
   flex-wrap: wrap;
 
   @include mixins.mobile() {
@@ -313,22 +427,47 @@
 }
 
 .message__button {
-  @include mixins.button-base();
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  margin: 0;
   @include mixins.padding-sm();
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: inherit;
   @include mixins.text-sm();
   @include mixins.font-medium();
+  color: inherit;
+  line-height: 1.4;
+  white-space: nowrap;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  @include mixins.transition-normal();
+  animation: none;
+  overflow: visible;
+  opacity: 1;
+  cursor: pointer;
+  @include mixins.button-base();
   @include mixins.border-radius(0.5rem);
   min-height: 2.5rem;
 
-  @include mixins.mobile() {
-    @include mixins.padding-lg();
-    @include mixins.text-sm();
-    width: 100%;
+  &:focus {
+    @include mixins.focus-ring();
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   &--primary {
     &:hover:not(:disabled) {
-      @include mixins.hover-lift(-1px);
+      @include mixins.hover-lift(-0.0625rem);
     }
 
     &:active:not(:disabled) {
@@ -344,7 +483,10 @@
 
     &:hover:not(:disabled) {
       background-color: var(--form-gray-50);
-      @include mixins.hover-lift(-1px, 0 2px 8px rgba(0, 0, 0, 0.1));
+      @include mixins.hover-lift(
+        -0.0625rem,
+        0 0.125rem 0.5rem rgba(0, 0, 0, 0.1)
+      );
     }
 
     &:active:not(:disabled) {
@@ -352,28 +494,38 @@
       @include mixins.shadow-sm();
     }
   }
+
+  @include mixins.mobile() {
+    @include mixins.padding-lg();
+    @include mixins.text-sm();
+    width: 100%;
+  }
 }
 
 .message__close {
   position: absolute;
   top: 1rem;
   right: 1rem;
+  @include mixins.flex-center();
   width: 2rem;
   height: 2rem;
-  @include mixins.flex-center();
-  background: transparent;
+  margin: 0;
+  padding: 0;
   border: none;
+  background: transparent;
+  font-family: inherit;
   color: var(--form-gray-500);
+  line-height: 1;
+  white-space: normal;
+  letter-spacing: normal;
+  word-break: normal;
+  transform: none;
+  @include mixins.transition-normal();
+  animation: none;
+  overflow: visible;
+  opacity: 1;
   cursor: pointer;
   @include mixins.border-radius(0.375rem);
-  @include mixins.transition-normal();
-
-  @include mixins.mobile() {
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 1.75rem;
-    height: 1.75rem;
-  }
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
@@ -388,12 +540,19 @@
   &:active {
     @include mixins.hover-scale(0.95);
   }
+
+  @include mixins.mobile() {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 1.75rem;
+    height: 1.75rem;
+  }
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-0.625rem);
   }
   to {
     opacity: 1;

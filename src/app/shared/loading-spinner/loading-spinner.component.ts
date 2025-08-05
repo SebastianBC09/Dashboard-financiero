@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 export type SpinnerSize = 'small' | 'medium' | 'large';
 export type SpinnerState =
@@ -25,7 +27,7 @@ export interface LoadingSpinnerConfig {
 
 @Component({
   selector: 'app-loading-spinner',
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './loading-spinner.component.html',
   styleUrl: './loading-spinner.component.scss',
 })
@@ -43,6 +45,8 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
   @Input() config?: LoadingSpinnerConfig;
 
   private progressInterval?: number;
+
+  faSpinner = faSpinner;
 
   ngOnInit(): void {
     this.applyConfig();

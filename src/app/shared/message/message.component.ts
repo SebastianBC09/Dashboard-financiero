@@ -1,5 +1,13 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faExclamationTriangle,
+  faCheckCircle,
+  faInfoCircle,
+  faExclamationCircle,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 
 export type MessageType = 'error' | 'warning' | 'success' | 'info';
 export type MessageVariant = 'inline' | 'toast' | 'modal';
@@ -7,7 +15,7 @@ export type MessageVariant = 'inline' | 'toast' | 'modal';
 @Component({
   selector: 'app-message',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
 })
@@ -27,6 +35,11 @@ export class MessageComponent implements OnInit {
   @Input() fullWidth: boolean = false;
 
   @Output() dismiss = new EventEmitter<void>();
+  faExclamationTriangle = faExclamationTriangle;
+  faCheckCircle = faCheckCircle;
+  faInfoCircle = faInfoCircle;
+  faExclamationCircle = faExclamationCircle;
+  faTimes = faTimes;
 
   private _errorId: string = '';
 

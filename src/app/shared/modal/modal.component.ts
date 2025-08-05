@@ -10,13 +10,15 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export type ModalSize = 'small' | 'medium' | 'large' | 'full';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss',
 })
@@ -30,6 +32,8 @@ export class ModalComponent implements OnInit, OnDestroy, OnChanges {
   @Input() preventScroll: boolean = true;
 
   @Output() close = new EventEmitter<void>();
+
+  faTimes = faTimes;
 
   private originalBodyOverflow: string = '';
 

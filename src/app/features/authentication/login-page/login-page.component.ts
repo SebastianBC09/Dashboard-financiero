@@ -1,5 +1,12 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faEye,
+  faEyeSlash,
+  faEnvelope,
+  faLock,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   FormBuilder,
   FormGroup,
@@ -20,6 +27,7 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
   standalone: true,
   imports: [
     CommonModule,
+    FontAwesomeModule,
     ReactiveFormsModule,
     ButtonComponent,
     MessageComponent,
@@ -33,6 +41,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   isLoading = false;
   errorMessage = '';
   showPassword = false;
+
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  faEnvelope = faEnvelope;
+  faLock = faLock;
 
   private destroy$ = new Subject<void>();
 
@@ -49,7 +62,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Check if user is already authenticated
     if (this.authenticationService.isUserAuthenticated()) {
       this.router.navigate(['/dashboard']);
     }
@@ -108,7 +120,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Getters for form validation
   get emailField() {
     return this.loginForm.get('email');
   }

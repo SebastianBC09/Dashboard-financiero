@@ -27,6 +27,11 @@
     background: var(--background-secondary);
     border-color: var(--border-color);
   }
+
+  @include mixins.mobile() {
+    gap: var(--spacing-md);
+    @include mixins.padding-md();
+  }
 }
 
 .transaction-item__icon {
@@ -185,6 +190,10 @@
   opacity: 1;
   flex-shrink: 0;
   text-align: right;
+
+  @include mixins.mobile() {
+    text-align: left;
+  }
 }
 
 .transaction-item__value {
@@ -235,15 +244,4 @@
   animation: none;
   overflow: visible;
   opacity: 1;
-}
-
-@include mixins.mobile() {
-  .transaction-item {
-    gap: var(--spacing-md);
-    @include mixins.padding-md();
-  }
-
-  .transaction-item__amount {
-    text-align: left;
-  }
 }

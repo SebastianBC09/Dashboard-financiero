@@ -1,0 +1,59 @@
+<article class="credit-card" [class.credit-card--overdue]="data.isOverdue">
+  <div class="credit-card__header">
+    <div class="credit-card__info">
+      <h3 class="credit-card__title">{{ data.title }}</h3>
+      <p
+        class="credit-card__number"
+        [attr.aria-label]="'Producto número ' + data.number"
+      >
+        **** {{ data.number }}
+      </p>
+    </div>
+    <div
+      class="credit-card__type credit-card__type--{{ data.type }}"
+      [attr.aria-label]="getTypeLabel()"
+    >
+      <fa-icon [icon]="getIcon()" class="fa-lg"></fa-icon>
+    </div>
+  </div>
+
+  <div class="credit-card__amounts">
+    <div class="amount-item">
+      <span class="amount-item__label">{{ getAmountLabel() }}</span>
+      <span
+        class="amount-item__value"
+        [attr.aria-label]="formatAmount(data.originalAmount)"
+      >
+        {{ formatAmount(data.originalAmount) }}
+      </span>
+    </div>
+    <div class="amount-item">
+      <span class="amount-item__label">{{ getPendingLabel() }}</span>
+      <span
+        class="amount-item__value amount-item__value--pending"
+        [attr.aria-label]="formatAmount(data.pendingAmount)"
+      >
+        {{ formatAmount(data.pendingAmount) }}
+      </span>
+    </div>
+  </div>
+
+  <div class="credit-card__footer">
+    <div class="payment-info">
+      <span class="payment-info__label">{{ getPaymentLabel() }}:</span>
+      <time class="payment-info__date" [attr.datetime]="data.nextPaymentDate">
+        {{ formatDate(data.nextPaymentDate) }}
+      </time>
+    </div>
+    <div
+      class="progress-bar"
+      [attr.aria-label]="data.progressPercentage + '% pagado'"
+    >
+      <div
+        class="progress-bar__fill"
+        [class.progress-bar__fill--warning]="data.progressPercentage > 80"
+        [style.width.%]="data.progressPercentage"
+      ></div>
+    </div>
+  </div>
+</article>

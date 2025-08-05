@@ -1,1 +1,1 @@
-export * from './credit-card.component';
+export { CreditCardComponent } from './credit-card.component';

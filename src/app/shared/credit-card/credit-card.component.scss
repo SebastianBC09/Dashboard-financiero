@@ -1,0 +1,166 @@
+.credit-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  background: var(--background);
+  transition: all var(--transition-normal);
+}
+
+.credit-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-color);
+}
+
+.credit-card--overdue {
+  border-color: var(--error-color);
+  background: rgba(229, 62, 62, 0.02);
+}
+
+.credit-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+}
+
+.credit-card__info {
+  flex: 1;
+}
+
+.credit-card__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-xs);
+}
+
+.credit-card__number {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+  font-family: "Courier New", monospace;
+}
+
+.credit-card__type {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.credit-card__type--mortgage {
+  background: rgba(56, 161, 105, 0.1);
+  color: var(--success-color);
+}
+
+.credit-card__type--auto {
+  background: rgba(49, 130, 206, 0.1);
+  color: var(--accent-color);
+}
+
+.credit-card__type--credit {
+  background: rgba(214, 158, 46, 0.1);
+  color: var(--warning-color);
+}
+
+.credit-card__type--personal {
+  background: rgba(128, 90, 213, 0.1);
+  color: #805ad5;
+}
+
+.credit-card__type--business {
+  background: rgba(237, 137, 54, 0.1);
+  color: #ed8936;
+}
+
+.credit-card__amounts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.credit-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+}
+
+.amount-item__label {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.amount-item__value {
+  display: block;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.amount-item__value--pending {
+  color: var(--warning-color);
+}
+
+.payment-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.payment-info__label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.payment-info__date {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.progress-bar {
+  width: 120px;
+  height: 6px;
+  background: var(--background-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: var(--success-color);
+  border-radius: 3px;
+  transition: width var(--transition-slow);
+}
+
+.progress-bar__fill--warning {
+  background: var(--warning-color);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .credit-card__amounts {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .credit-card__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .progress-bar {
+    width: 100%;
+  }
+}

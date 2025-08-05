@@ -10,7 +10,10 @@
       class="product-card__features"
       aria-label="Características del producto"
     >
-      <li *ngFor="let feature of data.features">{{ feature }}</li>
+      <li *ngFor="let feature of data.features" class="product-card__feature">
+        <fa-icon [icon]="faCheck" class="product-card__feature-icon"></fa-icon>
+        <span class="product-card__feature-text">{{ feature }}</span>
+      </li>
     </ul>
   </div>
 

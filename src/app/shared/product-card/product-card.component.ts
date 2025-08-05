@@ -8,6 +8,7 @@ import {
   faHome,
   faCar,
   faChartLine,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { ButtonComponent } from '../button/button.component';
 
@@ -32,12 +33,12 @@ export class ProductCardComponent {
   @Input() data!: ProductCardData;
   @Output() onLearnMore = new EventEmitter<void>();
 
-  // FontAwesome icons
   faCreditCard = faCreditCard;
   faMoneyBill = faMoneyBill;
   faHome = faHome;
   faCar = faCar;
   faChartLine = faChartLine;
+  faCheck = faCheck;
 
   getButtonVariant(): 'primary' | 'secondary' | 'danger' | 'ghost' {
     switch (this.data.variant) {

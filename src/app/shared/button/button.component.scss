@@ -19,33 +19,18 @@
     @include mixins.padding-sm();
     @include mixins.text-sm();
     min-height: 2rem;
-
-    .button__icon {
-      width: 1rem;
-      height: 1rem;
-    }
   }
 
   &--medium {
     @include mixins.padding-md();
     @include mixins.text-sm();
     min-height: 2.5rem;
-
-    .button__icon {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
   }
 
   &--large {
     @include mixins.padding-lg();
     @include mixins.text-base();
     min-height: 3rem;
-
-    .button__icon {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
   }
 
   &--primary {
@@ -143,17 +128,12 @@
   }
 }
 
-.button__icon {
-  flex-shrink: 0;
-  fill: currentColor;
+.button__icon--left {
+  margin-right: 0.25rem;
+}
 
-  &--left {
-    margin-right: 0.25rem;
-  }
-
-  &--right {
-    margin-left: 0.25rem;
-  }
+.button__icon--right {
+  margin-left: 0.25rem;
 }
 
 .button__text {

@@ -5,7 +5,6 @@
   (click)="onButtonClick($event)"
   [attr.aria-label]="iconOnly ? icon : undefined"
 >
-  <!-- Loading spinner -->
   <div *ngIf="loading" class="button__spinner" aria-hidden="true">
     <svg
       class="button__spinner-svg"
@@ -38,36 +37,25 @@
       </circle>
     </svg>
   </div>
-
-  <!-- Icon left -->
-  <svg
+  <fa-icon
     *ngIf="icon && iconPosition === 'left' && !loading"
-    class="button__icon button__icon--left"
+    [icon]="icon"
+    [class]="getIconSizeClass() + ' button__icon--left'"
     aria-hidden="true"
-  >
-    <use [attr.href]="'#' + icon"></use>
-  </svg>
-
-  <!-- Text content -->
+  ></fa-icon>
   <span *ngIf="!iconOnly" class="button__text">
     <ng-content></ng-content>
   </span>
-
-  <!-- Icon right -->
-  <svg
+  <fa-icon
     *ngIf="icon && iconPosition === 'right' && !loading"
-    class="button__icon button__icon--right"
+    [icon]="icon"
+    [class]="getIconSizeClass() + ' button__icon--right'"
     aria-hidden="true"
-  >
-    <use [attr.href]="'#' + icon"></use>
-  </svg>
-
-  <!-- Icon only -->
-  <svg
+  ></fa-icon>
+  <fa-icon
     *ngIf="icon && iconOnly && !loading"
-    class="button__icon"
+    [icon]="icon"
+    [class]="getIconSizeClass()"
     aria-hidden="true"
-  >
-    <use [attr.href]="'#' + icon"></use>
-  </svg>
+  ></fa-icon>
 </button>

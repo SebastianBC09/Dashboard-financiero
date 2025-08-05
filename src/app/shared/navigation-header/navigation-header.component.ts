@@ -9,6 +9,21 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  IconDefinition,
+  faTachometerAlt,
+  faExchangeAlt,
+  faCreditCard,
+  faBell,
+  faCog,
+  faSignOutAlt,
+  faUser,
+  faChevronDown,
+  faBars,
+  faTimes,
+  faChartLine,
+} from '@fortawesome/free-solid-svg-icons';
 
 export interface NavigationItem {
   id: string;
@@ -36,7 +51,7 @@ export interface NotificationItem {
 @Component({
   selector: 'app-navigation-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule],
   templateUrl: './navigation-header.component.html',
   styleUrl: './navigation-header.component.scss',
 })
@@ -61,6 +76,18 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
   private userMenuElement?: HTMLElement;
   private notificationsElement?: HTMLElement;
 
+  faTachometerAlt = faTachometerAlt;
+  faExchangeAlt = faExchangeAlt;
+  faCreditCard = faCreditCard;
+  faBell = faBell;
+  faCog = faCog;
+  faSignOutAlt = faSignOutAlt;
+  faUser = faUser;
+  faChevronDown = faChevronDown;
+  faBars = faBars;
+  faTimes = faTimes;
+  faChartLine = faChartLine;
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {
@@ -69,6 +96,8 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.closeAllMenus();
+    document.body.classList.remove('mobile-menu-open');
+    document.body.style.top = '';
   }
 
   @HostListener('document:click', ['$event'])
@@ -102,6 +131,21 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
 
   onNavigationClick(item: NavigationItem): void {
     this.navigationClick.emit(item);
+    this.closeMobileMenu();
+  }
+
+  onMobileNotificationClick(notification: NotificationItem): void {
+    this.notificationClick.emit(notification);
+    this.closeMobileMenu();
+  }
+
+  onMobileUserAction(action: string): void {
+    this.userMenuClick.emit(action);
+    this.closeMobileMenu();
+  }
+
+  onMobileLogout(): void {
+    this.logoutClick.emit();
     this.closeMobileMenu();
   }
 
@@ -149,10 +193,29 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+
+    if (this.isMobileMenuOpen) {
+      document.body.classList.add('mobile-menu-open');
+      document.body.style.top = `-${window.scrollY}px`;
+    } else {
+      document.body.classList.remove('mobile-menu-open');
+      const scrollY = document.body.style.top;
+      document.body.style.top = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
   }
 
   closeMobileMenu(): void {
     this.isMobileMenuOpen = false;
+
+    document.body.classList.remove('mobile-menu-open');
+    const scrollY = document.body.style.top;
+    document.body.style.top = '';
+    if (scrollY) {
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
   }
 
   private closeAllMenus(): void {
@@ -191,6 +254,16 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
     return classes.join(' ');
   }
 
+  get mobileOverlayClasses(): string {
+    const classes = ['navigation-header__mobile-overlay'];
+
+    if (this.isMobileMenuOpen) {
+      classes.push('navigation-header__mobile-overlay--open');
+    }
+
+    return classes.join(' ');
+  }
+
   get mobileMenuButtonClasses(): string {
     const classes = ['navigation-header__mobile-menu-btn'];
 
@@ -223,6 +296,20 @@ export class NavigationHeaderComponent implements OnInit, OnDestroy {
     if (target) {
       target.src =
         'https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff&size=40';
+    }
+  }
+
+  getNavigationIcon(icon?: string): IconDefinition {
+    switch (icon) {
+      case 'dashboard':
+        return this.faTachometerAlt;
+      case 'transactions':
+        return this.faExchangeAlt;
+      case 'credit':
+      case 'credit-card':
+        return this.faCreditCard;
+      default:
+        return this.faTachometerAlt;
     }
   }
 }

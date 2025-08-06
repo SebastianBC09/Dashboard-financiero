@@ -22,7 +22,8 @@ import {
 import {
   LoanApplicationService,
   LoanSimulation,
-} from '../../../core/loan-application.service';
+  SanitizationService,
+} from '../../../core';
 
 @Component({
   selector: 'app-loan-application-form',
@@ -59,6 +60,7 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private loanApplicationService: LoanApplicationService,
+    private sanitizationService: SanitizationService,
   ) {}
 
   ngOnInit(): void {
@@ -85,9 +87,26 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
       this.isSimulating = true;
       this.errorMessage = '';
       this.showSimulation = false;
-      const request = this.creditForm.value;
+
+      const formValue = this.creditForm.value;
+      const sanitizedRequest = {
+        creditType: this.sanitizationService.validateCreditType(
+          formValue.creditType,
+        ),
+        amount: this.sanitizationService.validateInput(
+          formValue.amount,
+          'number',
+        ),
+        term: this.sanitizationService.validateInput(formValue.term, 'number'),
+        monthlyIncome: this.sanitizationService.validateInput(
+          formValue.monthlyIncome,
+          'number',
+        ),
+        terms: Boolean(formValue.terms),
+      };
+
       this.loanApplicationService
-        .simulateLoan(request)
+        .simulateLoan(sanitizedRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (simulation) => {
@@ -96,7 +115,9 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
             this.isSimulating = false;
           },
           error: (error) => {
-            this.errorMessage = error.message || 'Error al simular el crédito';
+            this.errorMessage = this.sanitizationService.sanitizeText(
+              error.message || 'Error al simular el crédito',
+            );
             this.isSimulating = false;
           },
         });
@@ -111,20 +132,42 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
       this.errorMessage = '';
       this.successMessage = '';
 
-      const request = this.creditForm.value;
+      const formValue = this.creditForm.value;
+      const sanitizedRequest = {
+        creditType: this.sanitizationService.validateCreditType(
+          formValue.creditType,
+        ),
+        amount: this.sanitizationService.validateInput(
+          formValue.amount,
+          'number',
+        ),
+        term: this.sanitizationService.validateInput(formValue.term, 'number'),
+        monthlyIncome: this.sanitizationService.validateInput(
+          formValue.monthlyIncome,
+          'number',
+        ),
+        terms: Boolean(formValue.terms),
+      };
 
       this.loanApplicationService
-        .submitApplication(request)
+        .submitApplication(sanitizedRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (application) => {
             this.isSubmitting = false;
             this.showSimulation = false;
             this.showSuccess = true;
-            this.successMessage = `¡Solicitud enviada exitosamente! Tu número de solicitud es: ${application.id}. Nuestro equipo revisará tu información y te contactaremos en los próximos 3-5 días hábiles con una respuesta.`;
+            const applicationId = this.sanitizationService.sanitizeText(
+              String(application.id),
+            );
+            this.successMessage = this.sanitizationService.sanitizeText(
+              `¡Solicitud enviada exitosamente! Tu número de solicitud es: ${applicationId}. Nuestro equipo revisará tu información y te contactaremos en los próximos 3-5 días hábiles con una respuesta.`,
+            );
           },
           error: (error) => {
-            this.errorMessage = error.message || 'Error al enviar la solicitud';
+            this.errorMessage = this.sanitizationService.sanitizeText(
+              error.message || 'Error al enviar la solicitud',
+            );
             this.isSubmitting = false;
           },
         });
@@ -159,18 +202,24 @@ export class LoanApplicationFormComponent implements OnInit, OnDestroy {
     const field = this.creditForm.get(fieldName);
     if (field?.invalid && field?.touched) {
       if (field.errors?.['required']) {
-        return 'Este campo es requerido';
+        return this.sanitizationService.sanitizeText('Este campo es requerido');
       }
       if (field.errors?.['min']) {
         if (fieldName === 'amount') {
-          return 'El monto mínimo es $500,000';
+          return this.sanitizationService.sanitizeText(
+            'El monto mínimo es $500,000',
+          );
         }
         if (fieldName === 'monthlyIncome') {
-          return 'Los ingresos mínimos son $100,000';
+          return this.sanitizationService.sanitizeText(
+            'Los ingresos mínimos son $100,000',
+          );
         }
       }
       if (field.errors?.['requiredTrue']) {
-        return 'Debes aceptar los términos y condiciones';
+        return this.sanitizationService.sanitizeText(
+          'Debes aceptar los términos y condiciones',
+        );
       }
     }
     return '';

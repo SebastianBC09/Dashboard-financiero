@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { delay, tap, catchError, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../models/types';
 import { UserCredentials, UserSession } from '../models/types/auth.interface';
-import { MOCK_USERS } from '../data/mock/mock-data';
+import { MockHttpResponse } from '../data/types/mock-http.types';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +12,9 @@ import { MOCK_USERS } from '../data/mock/mock-data';
 export class AuthenticationService {
   private currentSessionSubject = new BehaviorSubject<UserSession | null>(null);
   public currentSession$ = this.currentSessionSubject.asObservable();
-  private readonly mockUsers: User[] = MOCK_USERS;
+  private readonly baseUrl = '/api';
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.loadSessionFromStorage();
     this.checkAndCleanExpiredSession();
   }
@@ -29,36 +30,35 @@ export class AuthenticationService {
   public authenticateUser(
     credentials: UserCredentials,
   ): Observable<UserSession> {
-    const user = this.mockUsers.find((u) => u.email === credentials.email);
-
-    if (!user) {
-      return throwError(
-        () =>
-          new Error('Usuario no encontrado. Verifica tu correo electrónico.'),
-      );
-    }
-
     if (credentials.password.length < 6) {
       return throwError(
         () => new Error('La contraseña debe tener al menos 6 caracteres'),
       );
     }
 
-    const sessionDuration = 5 * 60 * 1000;
-
-    const session: UserSession = {
-      user,
-      token: this.generateMockToken(),
-      expiresAt: new Date(Date.now() + sessionDuration),
-    };
-
-    return of(session).pipe(
-      delay(1000),
-      tap((session) => {
-        this.setCurrentSession(session);
-        this.saveSessionToStorage(session);
-      }),
-    );
+    return this.http
+      .post<
+        MockHttpResponse<{ user: User; token: string; expiresAt: Date }>
+      >(`${this.baseUrl}/auth/login`, credentials)
+      .pipe(
+        map((response) => {
+          const session: UserSession = {
+            user: response.data.user,
+            token: response.data.token,
+            expiresAt: new Date(response.data.expiresAt),
+          };
+          return session;
+        }),
+        tap((session) => {
+          this.setCurrentSession(session);
+          this.saveSessionToStorage(session);
+        }),
+        catchError((error) => {
+          return throwError(
+            () => new Error(error.message || 'Error de autenticación'),
+          );
+        }),
+      );
   }
 
   public logoutUser(): Observable<void> {

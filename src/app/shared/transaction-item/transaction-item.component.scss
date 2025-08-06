@@ -22,10 +22,18 @@
   overflow: visible;
   opacity: 1;
   gap: var(--spacing-lg);
+  cursor: pointer;
 
   &:hover {
     background: var(--background-secondary);
     border-color: var(--border-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    @include mixins.focus-ring;
+    background-color: var(--accent-color-light);
   }
 
   @include mixins.mobile() {

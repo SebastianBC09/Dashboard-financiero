@@ -123,6 +123,7 @@ app-root {
   --primary-light: #2c5282;
   --secondary-color: #2d3748;
   --accent-color: #3182ce;
+  --accent-color-light: #ebf8ff;
   --success-color: #38a169;
   --warning-color: #d69e2e;
   --error-color: #e53e3e;
@@ -305,10 +306,6 @@ app-root {
 }
 
 @media (max-width: 768px) {
-  body {
-    padding: var(--spacing-lg);
-  }
-
   .container {
     padding: 0 var(--spacing-md);
   }

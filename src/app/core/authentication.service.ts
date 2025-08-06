@@ -218,18 +218,51 @@ export class AuthenticationService {
     }
   }
 
-  private isValidSessionStructure(session: any): session is UserSession {
-    return (
-      session &&
-      typeof session === 'object' &&
-      session.user &&
-      typeof session.user === 'object' &&
-      session.token &&
-      typeof session.token === 'string' &&
-      session.expiresAt &&
-      typeof session.user.email === 'string' &&
-      typeof session.user.name === 'string'
-    );
+  private isValidSessionStructure(session: unknown): session is UserSession {
+    if (!session || typeof session !== 'object') {
+      return false;
+    }
+
+    const sessionObj = session as Record<string, unknown>;
+
+    if (!this.isValidUserStructure(sessionObj['user'])) {
+      return false;
+    }
+
+    if (!sessionObj['token'] || typeof sessionObj['token'] !== 'string') {
+      return false;
+    }
+
+    if (!sessionObj['expiresAt']) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private isValidUserStructure(user: unknown): user is User {
+    if (!user || typeof user !== 'object') {
+      return false;
+    }
+
+    const userObj = user as Record<string, unknown>;
+
+    if (!userObj['email'] || typeof userObj['email'] !== 'string') {
+      return false;
+    }
+
+    if (!userObj['name'] || typeof userObj['name'] !== 'string') {
+      return false;
+    }
+
+    if (
+      !userObj['employmentInfo'] ||
+      typeof userObj['employmentInfo'] !== 'object'
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   private removeSessionFromStorage(): void {

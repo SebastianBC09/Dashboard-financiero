@@ -18,12 +18,7 @@ import {
   ProductCardData,
 } from '../../../shared/product-card/product-card.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
-import {
-  NavigationHeaderComponent,
-  NavigationItem,
-  UserProfile,
-  NotificationItem,
-} from '../../../shared/navigation-header/navigation-header.component';
+
 import { AuthenticationService } from '../../../core/authentication.service';
 
 @Component({
@@ -36,7 +31,6 @@ import { AuthenticationService } from '../../../core/authentication.service';
     TransactionItemComponent,
     ProductCardComponent,
     ButtonComponent,
-    NavigationHeaderComponent,
   ],
   templateUrl: './dashboard-main.component.html',
   styleUrl: './dashboard-main.component.scss',
@@ -46,11 +40,6 @@ export class DashboardMainComponent implements OnInit {
   creditCards: CreditCardData[] = [];
   transactions: TransactionData[] = [];
   productCards: ProductCardData[] = [];
-
-  // Navigation data
-  navigationItems: NavigationItem[] = [];
-  userProfile?: UserProfile;
-  notifications: NotificationItem[] = [];
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -62,19 +51,6 @@ export class DashboardMainComponent implements OnInit {
     this.loadCreditData();
     this.loadTransactionData();
     this.loadProductData();
-    this.loadNavigationData();
-
-    // Suscribirse a cambios en la sesión para actualizar el perfil
-    this.authenticationService.currentSession$.subscribe((session) => {
-      if (session) {
-        this.loadNavigationData();
-      } else {
-        // Si no hay sesión, limpiar los datos de navegación
-        this.userProfile = undefined;
-        this.navigationItems = [];
-        this.notifications = [];
-      }
-    });
   }
 
   private loadSummaryData(): void {
@@ -144,8 +120,8 @@ export class DashboardMainComponent implements OnInit {
   private loadTransactionData(): void {
     this.transactions = [
       {
-        title: 'Pago Vivienda',
-        description: 'Cuota Dic 2024',
+        title: 'Pago Hipoteca',
+        description: 'Cuota mensual',
         amount: 800000,
         type: 'payment',
         date: '2024-12-01',
@@ -161,7 +137,7 @@ export class DashboardMainComponent implements OnInit {
       },
       {
         title: 'Pago Vehicular',
-        description: 'Cuota Nov 2024',
+        description: 'Cuota mensual',
         amount: 350000,
         type: 'payment',
         date: '2024-11-25',
@@ -169,7 +145,7 @@ export class DashboardMainComponent implements OnInit {
       },
       {
         title: 'Pago Tarjeta',
-        description: 'Mínimo Nov 2024',
+        description: 'Pago mínimo',
         amount: 50000,
         type: 'payment',
         date: '2024-11-20',
@@ -177,7 +153,7 @@ export class DashboardMainComponent implements OnInit {
       },
       {
         title: 'Pago Libre Inversión',
-        description: 'Cuota Nov 2024',
+        description: 'Cuota mensual',
         amount: 500000,
         type: 'payment',
         date: '2024-11-15',
@@ -221,81 +197,4 @@ export class DashboardMainComponent implements OnInit {
   onViewAllTransactions(): void {}
 
   onProductLearnMore(): void {}
-
-  private loadNavigationData(): void {
-    this.navigationItems = [
-      {
-        id: 'dashboard',
-        label: 'Dashboard',
-        route: '/dashboard',
-        icon: 'dashboard',
-      },
-      {
-        id: 'loan-application',
-        label: 'Solicitar Crédito',
-        route: '/loan-application',
-        icon: 'credit',
-      },
-      {
-        id: 'transactions',
-        label: 'Transacciones',
-        route: '/transactions',
-        icon: 'transactions',
-      },
-    ];
-
-    const currentUser = this.authenticationService.getCurrentUser();
-    if (currentUser) {
-      this.userProfile = {
-        name: `${currentUser.firstName} ${currentUser.lastName}`,
-        email: currentUser.email,
-        avatar: currentUser.avatar,
-      };
-    }
-
-    this.notifications = [
-      {
-        id: '1',
-        title: 'Pago próximo',
-        message: 'Tu próximo pago vence en 3 días',
-        type: 'warning',
-        timestamp: new Date(),
-        isRead: false,
-      },
-      {
-        id: '2',
-        title: 'Crédito aprobado',
-        message: 'Tu solicitud de crédito ha sido aprobada',
-        type: 'success',
-        timestamp: new Date(Date.now() - 3600000),
-        isRead: true,
-      },
-    ];
-  }
-
-  onNavigationClick(item: NavigationItem): void {}
-
-  onUserMenuClick(action: string): void {
-    switch (action) {
-      case 'profile':
-        break;
-      case 'settings':
-        break;
-      case 'help':
-        break;
-    }
-  }
-
-  onLogout(): void {
-    this.authenticationService.logoutUser().subscribe({
-      next: () => {
-        this.router.navigate(['/login']);
-      },
-      error: (error) => {
-        this.router.navigate(['/login']);
-      },
-    });
-  }
-
-  onNotificationClick(notification: NotificationItem): void {}
 }

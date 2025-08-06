@@ -1,13 +1,25 @@
-// Single Responsibility: Solo maneja utilidades relacionadas con HTTP mock
-
 /**
  * Extrae el endpoint de una URL
  * @param url - URL completa
  * @returns Nombre del endpoint
  */
 export function getEndpointFromUrl(url: string): string {
-  const urlParts = url.split('/');
-  return urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2];
+  let cleanUrl = url;
+
+  // Remover el protocolo y dominio si existe
+  if (url.includes('://')) {
+    cleanUrl = url.split('://')[1].split('/').slice(1).join('/');
+  }
+
+  // Remover barras iniciales y finales
+  cleanUrl = cleanUrl.replace(/^\/+|\/+$/g, '');
+
+  // Remover 'api' del inicio si existe
+  if (cleanUrl.startsWith('api/')) {
+    cleanUrl = cleanUrl.substring(4);
+  }
+
+  return cleanUrl;
 }
 
 /**

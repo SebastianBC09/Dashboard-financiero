@@ -75,10 +75,16 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
   private startProgressAnimation(): void {
     if (this.showProgress && this.progressValue === 0) {
       this.progressInterval = window.setInterval(() => {
-        this.progressValue = Math.min(
-          this.progressValue + Math.random() * 10,
-          90,
+        if (this.progressValue >= 90) {
+          this.stopProgressAnimation();
+          return;
+        }
+
+        const increment = Math.min(
+          Math.random() * 5 + 1,
+          90 - this.progressValue,
         );
+        this.progressValue = Math.min(this.progressValue + increment, 90);
       }, 500);
     }
   }

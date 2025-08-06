@@ -43,9 +43,16 @@ export class MockHttpService {
 
     let data: T;
 
+    const urlParts = url.split('/');
+    const hasSpecificId =
+      urlParts.length > 3 && urlParts[urlParts.length - 1] !== endpoint;
+
     switch (endpoint) {
       case 'users':
-        if (params?.has('id')) {
+        if (hasSpecificId) {
+          const userId = urlParts[urlParts.length - 1];
+          data = this.mockData.users.find((user) => user.id === userId) as T;
+        } else if (params?.has('id')) {
           const userId = params.get('id');
           data = this.mockData.users.find((user) => user.id === userId) as T;
         } else if (params?.has('email')) {
@@ -57,7 +64,12 @@ export class MockHttpService {
         break;
 
       case 'transactions':
-        if (params?.has('userId')) {
+        if (hasSpecificId) {
+          const transactionId = urlParts[urlParts.length - 1];
+          data = this.mockData.transactions.find(
+            (t) => t.id === transactionId,
+          ) as T;
+        } else if (params?.has('userId')) {
           const userId = params.get('userId');
           const limit = params.get('limit')
             ? parseInt(params.get('limit')!)

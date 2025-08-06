@@ -22,7 +22,6 @@ export class SessionMonitorService implements OnDestroy {
 
   private isMonitoring = false;
   private destroy$ = new Subject<void>();
-  private dismissedWarnings = new Set<string>();
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -59,7 +58,6 @@ export class SessionMonitorService implements OnDestroy {
   private checkSessionStatus(): void {
     if (!this.authenticationService.isUserAuthenticated()) {
       this.sessionWarningSubject.next(null);
-      this.dismissedWarnings.clear();
       return;
     }
 
@@ -67,22 +65,13 @@ export class SessionMonitorService implements OnDestroy {
 
     if (timeRemaining <= 0) {
       this.sessionWarningSubject.next(null);
-      this.dismissedWarnings.clear();
       this.stopMonitoring();
-
       this.authenticationService.logoutUser().subscribe({
-        next: () => {
-          this.router.navigate(['/login'], { replaceUrl: true });
-        },
-        error: (error) => {
-          this.router.navigate(['/login'], { replaceUrl: true });
-        },
+        next: () => this.router.navigate(['/login'], { replaceUrl: true }),
+        error: () => this.router.navigate(['/login'], { replaceUrl: true }),
       });
       return;
     }
-
-    const minutesRemaining = Math.floor(timeRemaining / 60);
-    const secondsRemaining = timeRemaining % 60;
 
     if (timeRemaining <= 60) {
       this.sessionWarningSubject.next({
@@ -91,7 +80,7 @@ export class SessionMonitorService implements OnDestroy {
         timeRemaining,
         showExtendButton: true,
       });
-    } else if (timeRemaining <= 120 && !this.dismissedWarnings.has('warning')) {
+    } else if (timeRemaining <= 120) {
       this.sessionWarningSubject.next({
         type: 'warning',
         message: 'Tu sesión está por expirar. ¿Deseas extenderla?',
@@ -108,38 +97,27 @@ export class SessionMonitorService implements OnDestroy {
       this.authenticationService.extendSession().subscribe({
         next: () => {
           this.sessionWarningSubject.next(null);
-          this.dismissedWarnings.clear();
           observer.next();
           observer.complete();
         },
-        error: (error) => {
-          observer.error(error);
-        },
+        error: (error) => observer.error(error),
       });
     });
   }
 
   public dismissWarning(): void {
     const currentWarning = this.sessionWarningSubject.value;
+    if (!currentWarning) return;
 
-    if (currentWarning) {
-      if (currentWarning.type === 'warning') {
-        this.dismissedWarnings.add('warning');
-        this.sessionWarningSubject.next(null);
-      } else if (currentWarning.type === 'critical') {
-        this.stopMonitoring();
-        this.sessionWarningSubject.next(null);
-        this.dismissedWarnings.clear();
-
-        this.authenticationService.logoutUser().subscribe({
-          next: () => {
-            this.router.navigate(['/login'], { replaceUrl: true });
-          },
-          error: () => {
-            this.router.navigate(['/login'], { replaceUrl: true });
-          },
-        });
-      }
+    if (currentWarning.type === 'warning') {
+      this.sessionWarningSubject.next(null);
+    } else if (currentWarning.type === 'critical') {
+      this.stopMonitoring();
+      this.sessionWarningSubject.next(null);
+      this.authenticationService.logoutUser().subscribe({
+        next: () => this.router.navigate(['/login'], { replaceUrl: true }),
+        error: () => this.router.navigate(['/login'], { replaceUrl: true }),
+      });
     }
   }
 

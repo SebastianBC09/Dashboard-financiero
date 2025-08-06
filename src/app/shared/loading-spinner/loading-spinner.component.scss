@@ -2,10 +2,8 @@
 
 .loading-spinner {
   position: relative;
-  @include mixins.flex-center();
   flex-direction: column;
   margin: 0;
-  @include mixins.padding-2xl();
   background: transparent;
   font-family: inherit;
   color: inherit;
@@ -20,6 +18,8 @@
   opacity: 1;
   gap: var(--spacing-lg);
   min-height: 7.5rem;
+  @include mixins.flex-center();
+  @include mixins.padding-2xl();
 
   &--small {
     @include mixins.padding-lg();

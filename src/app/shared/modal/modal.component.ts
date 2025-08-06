@@ -29,33 +29,52 @@ export class ModalComponent implements OnInit, OnDestroy, OnChanges {
   @Input() closeOnEscape: boolean = true;
   @Input() showCloseButton: boolean = true;
   @Input() title?: string;
-  @Input() preventScroll: boolean = true;
+  @Input() preventScroll: boolean = false;
 
   @Output() close = new EventEmitter<void>();
 
   faTimes = faTimes;
 
   private originalBodyOverflow: string = '';
+  private originalBodyPosition: string = '';
+  private originalBodyTop: string = '';
+  private scrollY: number = 0;
 
   ngOnInit(): void {
     if (this.preventScroll) {
       this.originalBodyOverflow = document.body.style.overflow;
+      this.originalBodyPosition = document.body.style.position;
+      this.originalBodyTop = document.body.style.top;
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isOpen'] && this.preventScroll) {
       if (this.isOpen) {
+        this.scrollY = window.scrollY;
         document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${this.scrollY}px`;
+        document.body.style.width = '100%';
       } else {
         document.body.style.overflow = this.originalBodyOverflow;
+        document.body.style.position = this.originalBodyPosition;
+        document.body.style.top = this.originalBodyTop;
+        document.body.style.width = '';
+        window.scrollTo(0, this.scrollY);
       }
     }
   }
 
   ngOnDestroy(): void {
-    if (this.preventScroll && this.originalBodyOverflow) {
+    if (this.preventScroll) {
       document.body.style.overflow = this.originalBodyOverflow;
+      document.body.style.position = this.originalBodyPosition;
+      document.body.style.top = this.originalBodyTop;
+      document.body.style.width = '';
+      if (this.scrollY > 0) {
+        window.scrollTo(0, this.scrollY);
+      }
     }
   }
 

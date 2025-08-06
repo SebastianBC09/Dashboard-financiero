@@ -29,6 +29,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'credit-transactions',
+    loadComponent: () =>
+      import(
+        './features/credit-transactions/credit-transaction-list/credit-transaction-list.component'
+      ).then((m) => m.CreditTransactionListComponent),
+    canActivate: [authGuard],
+  },
+  {
     path: '**',
     redirectTo: '/dashboard',
   },

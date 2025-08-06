@@ -1,0 +1,334 @@
+@use "../../../../styles/mixins";
+
+.credit-transactions {
+  min-height: 100vh;
+  background: var(--background-secondary);
+  position: relative;
+  z-index: 1;
+
+  &__hero {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color) 0%,
+      var(--primary-light) 100%
+    );
+    color: var(--white);
+    padding: var(--spacing-xl) 0;
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    z-index: 2;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  &__title {
+    @include mixins.text-2xl();
+    @include mixins.font-bold();
+    margin: 0 0 var(--spacing-sm);
+    letter-spacing: -0.025em;
+  }
+
+  &__subtitle {
+    @include mixins.text-base();
+    opacity: 0.9;
+    margin: 0;
+    @include mixins.font-medium();
+  }
+
+  &__stats {
+    @include mixins.responsive-grid(auto-fit, var(--spacing-lg));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  &__grid {
+    @include mixins.responsive-grid(1, var(--spacing-lg));
+    padding-bottom: var(--spacing-xl);
+    position: relative;
+    z-index: 2;
+  }
+
+  &__section {
+    @include mixins.card-base();
+    @include mixins.padding-lg();
+    background: var(--background);
+    position: relative;
+    z-index: 3;
+  }
+}
+
+.section__header {
+  @include mixins.flex-between();
+  margin-bottom: var(--spacing-lg);
+}
+
+.section__title {
+  @include mixins.text-xl();
+  @include mixins.font-semibold();
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.section__count {
+  @include mixins.text-sm();
+  color: var(--text-muted);
+  background: var(--background-secondary);
+  @include mixins.padding-sm(0.25rem 0.75rem);
+  @include mixins.border-radius(1rem);
+}
+
+.filters {
+  @include mixins.responsive-flex(column, 1rem);
+  @include mixins.card-base;
+  @include mixins.padding-xl();
+  @include mixins.shadow-md;
+
+  @include mixins.tablet {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  &__search {
+    position: relative;
+    flex: 1;
+
+    @include mixins.tablet {
+      max-width: 24rem;
+    }
+  }
+
+  &__search-input {
+    width: 100%;
+    padding-right: 3rem;
+    background-color: var(--background);
+    @include mixins.padding-lg();
+    @include mixins.border-light;
+    @include mixins.border-radius(0.5rem);
+    @include mixins.text-base;
+    @include mixins.transition-normal;
+
+    &:focus {
+      @include mixins.focus-ring;
+      border-color: var(--accent-color);
+    }
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+  }
+
+  &__search-icon {
+    position: absolute;
+    right: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__type {
+    @include mixins.responsive-flex(column, 0.5rem);
+
+    @include mixins.tablet {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &__label {
+    @include mixins.text-sm;
+    @include mixins.font-medium;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  &__select {
+    min-width: 10rem;
+    background-color: var(--background);
+    @include mixins.padding-lg();
+    @include mixins.border-light;
+    @include mixins.border-radius(0.5rem);
+    @include mixins.text-base;
+    @include mixins.transition-normal;
+
+    &:focus {
+      @include mixins.focus-ring;
+      border-color: var(--accent-color);
+    }
+  }
+}
+
+.transactions-list {
+  @include mixins.responsive-flex(column, var(--spacing-md));
+}
+
+.no-results {
+  text-align: center;
+  @include mixins.padding-3xl();
+  color: var(--text-muted);
+
+  &__icon {
+    margin: 0 auto var(--spacing-xl) auto;
+    opacity: 0.5;
+  }
+
+  &__title {
+    @include mixins.text-xl;
+    @include mixins.font-medium;
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-sm) 0;
+  }
+
+  &__description {
+    @include mixins.text-base;
+    margin: 0;
+  }
+}
+
+.transaction-detail {
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  &__icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &--payment {
+      background: rgba(229, 62, 62, 0.1);
+      color: var(--error-color);
+    }
+
+    &--disbursement {
+      background: rgba(0, 184, 148, 0.1);
+      color: var(--success-color);
+    }
+  }
+
+  &__info {
+    flex: 1;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+  }
+
+  &__category {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-light);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__label {
+    font-weight: 500;
+    color: var(--text-secondary);
+    min-width: 120px;
+  }
+
+  &__value {
+    text-align: right;
+    color: var(--text-primary);
+
+    &--positive {
+      color: var(--success-color);
+      font-weight: 600;
+    }
+
+    &--negative {
+      color: var(--error-color);
+      font-weight: 600;
+    }
+
+    &--status {
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+
+      &--completed {
+        background: rgba(0, 184, 148, 0.1);
+        color: var(--success-color);
+      }
+
+      &--pending {
+        background: rgba(253, 203, 110, 0.1);
+        color: var(--warning-color);
+      }
+
+      &--failed {
+        background: rgba(214, 48, 49, 0.1);
+        color: var(--error-color);
+      }
+    }
+  }
+}
+
+.sr-only {
+  @include mixins.sr-only;
+}
+
+@include mixins.tablet() {
+  .credit-transactions__hero {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .credit-transactions__title {
+    @include mixins.text-2xl();
+  }
+
+  .credit-transactions__subtitle {
+    @include mixins.text-base();
+  }
+
+  .credit-transactions__section {
+    @include mixins.padding-lg();
+  }
+
+  .section__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+}
+
+@include mixins.mobile() {
+  .credit-transactions__stats {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}

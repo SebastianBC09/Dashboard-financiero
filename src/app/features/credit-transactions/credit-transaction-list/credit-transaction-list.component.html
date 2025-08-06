@@ -1,0 +1,249 @@
+<main
+  class="credit-transactions"
+  role="main"
+  aria-label="Transacciones de crédito"
+>
+  <section class="credit-transactions__hero" aria-labelledby="hero-title">
+    <div class="container">
+      <header class="credit-transactions__header">
+        <h1 id="hero-title" class="credit-transactions__title">
+          Transacciones de Crédito
+        </h1>
+        <p class="credit-transactions__subtitle">
+          Historial completo de movimientos de tu línea de crédito
+        </p>
+      </header>
+
+      <div
+        class="credit-transactions__stats"
+        role="region"
+        aria-label="Estadísticas de transacciones"
+      >
+        <app-summary-card
+          *ngFor="let card of summaryCards; let i = index"
+          [data]="card"
+          [variant]="
+            i === 0
+              ? 'primary'
+              : i === 1
+                ? 'secondary'
+                : i === 2
+                  ? 'accent'
+                  : 'success'
+          "
+        >
+        </app-summary-card>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="credit-transactions__grid">
+      <section
+        class="credit-transactions__section"
+        aria-labelledby="filters-title"
+      >
+        <header class="section__header">
+          <h2 id="filters-title" class="section__title">Filtros</h2>
+        </header>
+
+        <div class="filters">
+          <div class="filters__search">
+            <label for="search" class="sr-only">Buscar transacciones</label>
+            <input
+              id="search"
+              type="text"
+              class="filters__search-input"
+              placeholder="Buscar por descripción o referencia..."
+              [(ngModel)]="searchTerm"
+              (input)="onSearchChange($any($event.target).value)"
+            />
+            <fa-icon
+              [icon]="faSearch"
+              class="filters__search-icon fa-sm"
+            ></fa-icon>
+          </div>
+
+          <div class="filters__type">
+            <label for="type-filter" class="filters__label"
+              >Filtrar por tipo:</label
+            >
+            <select
+              id="type-filter"
+              class="filters__select"
+              [(ngModel)]="selectedFilter"
+              (change)="onFilterChange($any($event.target).value)"
+            >
+              <option value="all">Todos</option>
+              <option value="PAYMENT">Pagos</option>
+              <option value="DISBURSEMENT">Desembolsos</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="credit-transactions__section"
+        aria-labelledby="transactions-title"
+      >
+        <header class="section__header">
+          <h2 id="transactions-title" class="section__title">
+            Transacciones Recientes
+          </h2>
+          <span class="section__count" *ngIf="!loading"
+            >{{ filteredTransactions.length }} transacciones</span
+          >
+        </header>
+
+        <app-message
+          *ngIf="error"
+          type="error"
+          variant="inline"
+          [title]="'Error al cargar transacciones'"
+          [message]="error"
+          [dismissible]="true"
+          (dismiss)="error = null"
+        ></app-message>
+
+        <app-loading-spinner
+          *ngIf="loading"
+          message="Cargando transacciones..."
+        ></app-loading-spinner>
+
+        <div
+          class="transactions-list"
+          *ngIf="!loading && filteredTransactions.length > 0; else noResults"
+        >
+          <app-transaction-item
+            *ngFor="
+              let transaction of filteredTransactions;
+              trackBy: trackByTransactionId
+            "
+            [data]="{
+              title: getTransactionDisplayTitle(transaction),
+              description: getTransactionDisplayDescription(transaction),
+              amount: transaction.amount,
+              type:
+                transaction.type === 'PAYMENT'
+                  ? 'payment'
+                  : transaction.type === 'DISBURSEMENT'
+                    ? 'disbursement'
+                    : transaction.type === 'TRANSFER'
+                      ? 'transfer'
+                      : transaction.type === 'WITHDRAWAL'
+                        ? 'withdrawal'
+                        : 'deposit',
+              date: transaction.transactionDate.toISOString(),
+              isCredit:
+                transaction.type === 'DISBURSEMENT' ||
+                transaction.type === 'DEPOSIT',
+            }"
+            (click)="openTransactionDetail(transaction)"
+            role="button"
+            tabindex="0"
+            [attr.aria-label]="'Ver detalles de ' + transaction.description"
+            (keydown.enter)="openTransactionDetail(transaction)"
+            (keydown.space)="openTransactionDetail(transaction)"
+          >
+          </app-transaction-item>
+        </div>
+
+        <ng-template #noResults>
+          <div class="no-results">
+            <fa-icon [icon]="faSearch" class="no-results__icon fa-3x"></fa-icon>
+            <h3 class="no-results__title">No se encontraron transacciones</h3>
+            <p class="no-results__description">
+              Intenta ajustar los filtros de búsqueda o verifica que existan
+              transacciones registradas.
+            </p>
+          </div>
+        </ng-template>
+      </section>
+    </div>
+  </div>
+</main>
+
+<app-modal
+  *ngIf="showModal && selectedTransaction"
+  [isOpen]="showModal"
+  [preventScroll]="false"
+  (close)="closeModal()"
+  title="Detalle de Transacción"
+>
+  <div class="transaction-detail" *ngIf="selectedTransaction">
+    <div class="transaction-detail__header">
+      <div class="transaction-detail__icon">
+        <fa-icon
+          [icon]="
+            selectedTransaction.type === 'PAYMENT' ? faDollarSign : faArrowUp
+          "
+          class="fa-2x"
+          [class]="
+            selectedTransaction.type === 'PAYMENT'
+              ? 'transaction-detail__icon--payment'
+              : 'transaction-detail__icon--disbursement'
+          "
+        ></fa-icon>
+      </div>
+      <div class="transaction-detail__info">
+        <h3 class="transaction-detail__title">
+          {{ selectedTransaction.description }}
+        </h3>
+        <p class="transaction-detail__category">
+          {{ selectedTransaction.category }}
+        </p>
+      </div>
+    </div>
+
+    <div class="transaction-detail__content">
+      <div class="transaction-detail__row">
+        <span class="transaction-detail__label">Monto:</span>
+        <span
+          class="transaction-detail__value"
+          [class]="
+            selectedTransaction.type === 'DISBURSEMENT'
+              ? 'transaction-detail__value--positive'
+              : 'transaction-detail__value--negative'
+          "
+        >
+          {{ selectedTransaction.type === "DISBURSEMENT" ? "+" : "-"
+          }}{{ formatCurrency(selectedTransaction.amount) }}
+        </span>
+      </div>
+
+      <div class="transaction-detail__row">
+        <span class="transaction-detail__label">Tipo:</span>
+        <span class="transaction-detail__value">{{
+          getTransactionTypeText(selectedTransaction.type)
+        }}</span>
+      </div>
+
+      <div class="transaction-detail__row">
+        <span class="transaction-detail__label">Estado:</span>
+        <span
+          class="transaction-detail__value transaction-detail__value--status"
+          [class]="
+            'transaction-detail__value--' +
+            selectedTransaction.status.toLowerCase()
+          "
+        >
+          {{ getStatusText(selectedTransaction.status) }}
+        </span>
+      </div>
+
+      <div class="transaction-detail__row">
+        <span class="transaction-detail__label">Fecha:</span>
+        <span class="transaction-detail__value">{{
+          formatDate(selectedTransaction.transactionDate)
+        }}</span>
+      </div>
+
+      <div class="transaction-detail__row">
+        <span class="transaction-detail__label">ID de Transacción:</span>
+        <span class="transaction-detail__value">{{
+          selectedTransaction.id
+        }}</span>
+      </div>
+    </div>
+  </div>
+</app-modal>

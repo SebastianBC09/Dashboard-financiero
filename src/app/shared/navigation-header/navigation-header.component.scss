@@ -14,8 +14,8 @@
   &__container {
     max-width: 80rem;
     margin: 0 auto;
-    @include mixins.padding-lg;
-    @include mixins.flex-between;
+    @include mixins.padding-lg();
+    @include mixins.flex-between();
     height: 4rem;
 
     @include mixins.tablet() {
@@ -36,7 +36,7 @@
     color: var(--form-gray-800);
     @include mixins.font-semibold;
     @include mixins.transition-normal;
-    @include mixins.padding-sm;
+    @include mixins.padding-sm();
     @include mixins.border-radius(0.375rem);
 
     &:hover,
@@ -84,9 +84,9 @@
   }
 
   &__nav-link {
-    @include mixins.flex-start;
+    @include mixins.flex-start();
     gap: 0.5rem;
-    @include mixins.padding-lg;
+    @include mixins.padding-lg();
     text-decoration: none;
     color: var(--form-gray-500);
     @include mixins.font-medium;
@@ -144,12 +144,12 @@
     @include mixins.text-sm;
     @include mixins.font-semibold;
     @include mixins.border-radius(0.625rem);
-    @include mixins.padding-sm;
+    @include mixins.padding-sm();
     margin-left: 0.25rem;
   }
 
   &__user-section {
-    @include mixins.flex-start;
+    @include mixins.flex-start();
     gap: 1rem;
 
     @include mixins.tablet() {
@@ -163,7 +163,7 @@
 
   &__notification-btn {
     position: relative;
-    @include mixins.flex-center;
+    @include mixins.flex-center();
     width: 2.5rem;
     height: 2.5rem;
     background: none;
@@ -195,7 +195,7 @@
     right: -0.125rem;
     min-width: 1rem;
     height: 1rem;
-    @include mixins.flex-center;
+    @include mixins.flex-center();
     background-color: var(--form-error);
     color: var(--white);
     font-size: 0.75rem;
@@ -341,9 +341,9 @@
   }
 
   &__notifications-empty {
-    @include mixins.padding-2xl;
     text-align: center;
     color: var(--form-gray-500);
+    @include mixins.padding-2xl();
 
     p {
       margin: 0;

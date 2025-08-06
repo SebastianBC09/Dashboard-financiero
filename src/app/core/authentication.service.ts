@@ -175,7 +175,16 @@ export class AuthenticationService {
     const storedSession = localStorage.getItem('financial-dashboard-session');
     if (storedSession) {
       try {
+        if (!this.isValidJson(storedSession)) {
+          throw new Error('Invalid JSON format');
+        }
+
         const session: UserSession = JSON.parse(storedSession);
+
+        if (!this.isValidSessionStructure(session)) {
+          throw new Error('Invalid session structure');
+        }
+
         session.expiresAt = new Date(session.expiresAt);
         session.user.dateOfBirth = new Date(session.user.dateOfBirth);
         session.user.employmentInfo.employmentStartDate = new Date(
@@ -183,6 +192,10 @@ export class AuthenticationService {
         );
         session.user.createdAt = new Date(session.user.createdAt);
         session.user.updatedAt = new Date(session.user.updatedAt);
+
+        if (isNaN(session.expiresAt.getTime())) {
+          throw new Error('Invalid expiration date');
+        }
 
         if (session.expiresAt > new Date()) {
           this.setCurrentSession(session);
@@ -194,6 +207,29 @@ export class AuthenticationService {
         this.removeSessionFromStorage();
       }
     }
+  }
+
+  private isValidJson(str: string): boolean {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  private isValidSessionStructure(session: any): session is UserSession {
+    return (
+      session &&
+      typeof session === 'object' &&
+      session.user &&
+      typeof session.user === 'object' &&
+      session.token &&
+      typeof session.token === 'string' &&
+      session.expiresAt &&
+      typeof session.user.email === 'string' &&
+      typeof session.user.name === 'string'
+    );
   }
 
   private removeSessionFromStorage(): void {
